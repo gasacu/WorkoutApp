@@ -2,7 +2,6 @@ using WorkoutApp.Components;
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
-using Blazorise.Bootstrap;
 
 var builder = WebApplication.CreateBuilder(args);
 
