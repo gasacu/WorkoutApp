@@ -9,7 +9,7 @@ namespace WorkoutApp.Components.Pages
 
         private void IncrementCount()
         {
-            currentCount++;
+            currentCount+=2;
         }
 
     }
