@@ -1,0 +1,38 @@
+﻿@page "/users"
+@using WorkoutApp.DTOs
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+
+<PageTitle>Users</PageTitle>
+
+<h3>Users</h3>
+
+<a href="user/add" class="btn btn-primary">Add User</a>
+
+
+<DataGrid TItem="UserDto"
+          Data="@UsersData"
+          Filterable
+          FilterMethod="DataGridFilterMethod.StartsWith"
+          Editable
+          Responsive>
+
+    <DataGridColumns>
+        <DataGridColumn TItem="UserDto" Field="FirstName" Caption="First Name" Editable></DataGridColumn>
+        <DataGridColumn TItem="UserDto" Field="LastName" Caption="Last Name" Editable></DataGridColumn>
+        <DataGridColumn TItem="UserDto" Field="Birthday" Caption="Birthday" Editable></DataGridColumn>
+        <DataGridColumn TItem="UserDto" Field="Gender" Caption="Gender" Editable></DataGridColumn>
+        <DataGridCommandColumn TItem="UserDto" Caption="Action" ClearFilterCommandAllowed="false">
+            <EditCommandTemplate>
+                <Button Color="Color.Primary" Clicked="() => EditUser(context)">Edit</Button>
+            </EditCommandTemplate>
+            <DeleteCommandTemplate>
+                <Button Color="Color.Danger" Clicked="() => DeleteUser(context)">Delete</Button>
+            </DeleteCommandTemplate>
+        </DataGridCommandColumn>
+    </DataGridColumns>
+
+</DataGrid>
+
+<DeleteConfirmationDialog @ref="DeleteConfirmation" OnConfirm="HandleDeleteConfirmed" />
+

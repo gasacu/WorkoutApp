@@ -7,10 +7,33 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Components\Pages\DeleteConfirmationDialog.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Blazorise" Version="1.5.3" />
     <PackageReference Include="Blazorise.Bootstrap" Version="1.5.3" />
     <PackageReference Include="Blazorise.Components" Version="1.5.3" />
+    <PackageReference Include="Blazorise.DataGrid" Version="1.5.3" />
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.5.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0-preview.5.24306.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0-preview.5.24306.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0-preview.5.24306.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\Pages\DeleteConfirmationDialog.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\Pages\DeleteConfirmationDialog.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Components\Pages\DeleteConfirmationDialog.razor" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,36 @@
+﻿@page "/exercises"
+@using WorkoutApp.DTOs
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+
+
+<PageTitle>Exercises</PageTitle>
+
+<h3>Exercises</h3>
+
+<a href="exercise/add" class="btn btn-primary">Add Exercise</a>
+
+
+<DataGrid TItem="ExerciseDto"
+          Data="@ExercisesData"
+          Filterable
+          FilterMethod="DataGridFilterMethod.StartsWith"
+          Editable
+          Responsive>
+
+    <DataGridColumns>
+        <DataGridColumn TItem="ExerciseDto" Field="Description" Caption="Description" Editable></DataGridColumn>
+        <DataGridColumn TItem="ExerciseDto" Field="Type" Caption="Type" Editable></DataGridColumn>
+        <DataGridCommandColumn TItem="ExerciseDto" Caption="Action" ClearFilterCommandAllowed="false">
+            <EditCommandTemplate>
+                <Button Color="Color.Primary" Clicked="() => EditExercise(context)">Edit</Button>
+            </EditCommandTemplate>
+            <DeleteCommandTemplate>
+                <Button Color="Color.Danger" Clicked="() => DeleteExercise(context)">Delete</Button>
+            </DeleteCommandTemplate>
+        </DataGridCommandColumn>
+    </DataGridColumns>
+
+</DataGrid>
+
+<DeleteConfirmationDialog @ref="DeleteConfirmation" OnConfirm="HandleDeleteConfirmed" />

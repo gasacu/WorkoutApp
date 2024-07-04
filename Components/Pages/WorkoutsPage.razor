@@ -1,0 +1,29 @@
+﻿@page "/workouts"
+@attribute [StreamRendering]
+
+
+<PageTitle>Workouts</PageTitle>
+
+<h3>Workouts</h3>
+
+<DataGrid TItem="Workout"
+          Data="@workouts"
+          Filterable
+          FilterMethod="DataGridFilterMethod.StartsWith"
+          Responsive>
+
+    <DataGridColumn TItem="Workout" Field="Name" Caption="Name"></DataGridColumn>
+    <DataGridColumn TItem="Workout" Field="Date" Caption="Date"></DataGridColumn>
+    <DataGridColumn TItem="Workout" Field="User.FirstName" Caption="Client Name">
+        <DisplayTemplate>
+            @{
+                var date = (context as Workout)?.User;
+
+                if (date != null)
+                {
+                    @($"{date.FirstName} {date.LastName}")
+                }
+            }
+        </DisplayTemplate>
+    </DataGridColumn>
+</DataGrid>
