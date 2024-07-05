@@ -1,0 +1,42 @@
+﻿@page "/workout/add/{UserId:int}"
+@page "/workout/edit/{WorkoutId:int}"
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+
+
+
+
+<PageTitle>Add Workout</PageTitle>
+<h3>Add a new Workout for User: @user.FirstName @user.LastName</h3>
+
+<EditForm Model="@workout" OnValidSubmit="@Save" FormName="AddWorkoutForm">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label>Name :</label>
+        <InputText @bind-Value="@workout.Name" class="form-control col-sm-3" />
+        <ValidationMessage For="@(() => @workout.Name)" />
+    </div>
+    <div class="form-group">
+        <label>Date :</label>
+        <InputDate @bind-Value="@workout.Date" class="form-control col-sm-3" />
+        <ValidationMessage For="@(() => @workout.Date)" />
+    </div>
+    @if (WorkoutId == null)
+    {
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Save" />
+            <a href="/users" class="btn btn-secondary shadow-none ms-3">Back to List</a>
+        </div>
+    }
+    else
+    {
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Save" />
+            <a href="/workouts" class="btn btn-secondary shadow-none ms-3">Back to List</a>
+        </div>
+    }
+
+</EditForm>
+
+
+

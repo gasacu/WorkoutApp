@@ -88,9 +88,18 @@ namespace WorkoutApp.Components.Pages.Users
             return modalRef.Hide();
         }
 
-
-
         
+
+        // add workout for user
+        private void OnAddWorkoutButtonClicked(EditCommandContext<UserDto> context)
+        {
+            if (context != null && context.Item != null)
+            {
+                NavigationManager.NavigateTo($"/workout/add/{context.Item.Id}");
+            }
+        }
+
+
 
 
 

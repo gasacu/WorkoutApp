@@ -16,7 +16,7 @@
             You can add one, update or delete it.
         </CardText>
         <Button Color="Color.Primary" Margin="Margin.Is3.FromTop" Clicked="() => OnAddButtonClicked()">
-            Add User
+            Add new User
             <Icon Name="IconName.ArrowRight" />
         </Button>
     </CardBody>
@@ -41,6 +41,7 @@
        
             <DataGridCommandColumn TItem="UserDto" Caption="Action" ClearFilterCommandAllowed="true">
                 <EditCommandTemplate>
+                <Button Color="Color.Primary" Clicked="() => OnAddWorkoutButtonClicked(context)">Add Workout</Button>
                     <Button Color="Color.Primary" Clicked="() => EditUser(context)">Edit</Button>
                 </EditCommandTemplate>
                 <DeleteCommandTemplate>

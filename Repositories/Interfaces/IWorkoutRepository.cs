@@ -1,12 +1,14 @@
-﻿using WorkoutApp.Entities;
+﻿using WorkoutApp.DTOs;
+using WorkoutApp.Entities;
 
 namespace WorkoutApp.Repositories.Interfaces
 {
     public interface IWorkoutRepository
     {
-        ICollection<Workout> GetWorkouts();
-        Workout GetWorkoutById(int id);
-        void AddWorkout(Workout workout);
-        void UpdateWorkout(Workout workout, int id);
+        IList<WorkoutDto> GetAllWorkouts();
+        WorkoutDto GetWorkoutById(int id);
+        Task AddWorkout(WorkoutDto workoutDto);
+        void EditWorkout(WorkoutDto workoutDto);
+        void DeleteWorkout(int id);
     }
 }

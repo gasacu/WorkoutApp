@@ -1,0 +1,50 @@
+﻿@page "/workouts"
+@using WorkoutApp.DTOs
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+
+<PageTitle>Workouts</PageTitle>
+
+<h3>Workouts</h3>
+
+<DataGrid TItem="WorkoutDto"
+          Data="@WorkoutsData"
+          Filterable
+          FilterMethod="DataGridFilterMethod.StartsWith"
+          Editable
+          ShowPager
+          ShowPageSizes
+          Responsive>
+
+    <DataGridColumns>
+        <DataGridColumn TItem="WorkoutDto" Field="Name" Caption="Name" Editable></DataGridColumn>
+        <DataGridColumn TItem="WorkoutDto" Field="Date" Caption="Date" Editable></DataGridColumn>
+        <DataGridColumn TItem="WorkoutDto" Field="UserId" Caption="User Id" Editable></DataGridColumn>
+
+        <DataGridCommandColumn TItem="WorkoutDto" Caption="Action" ClearFilterCommandAllowed="false">
+            <EditCommandTemplate>
+                <Button Color="Color.Primary" Clicked="() => EditWorkout(context)">Edit</Button>
+            </EditCommandTemplate>
+
+            <DeleteCommandTemplate>
+                <Button Color="Color.Danger" Clicked="() => OnDeleteButtonClicked(context)">Delete</Button>
+                <Modal @ref="modalRef" Closing="@OnModalClosing">
+                    <ModalContent Centered>
+                        <ModalHeader>
+                            <ModalTitle>Confirm Delete</ModalTitle>
+                        </ModalHeader>
+                        <ModalBody>
+                            Are you sure you want to delete the "@SelectedWorkout?.Name" workout?
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button Color="Color.Secondary" Clicked="@CloseModal">No</Button>
+                            <Button Color="Color.Primary" Clicked="@TryCloseModal">Yes</Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+            </DeleteCommandTemplate>
+
+        </DataGridCommandColumn>
+    </DataGridColumns>
+
+</DataGrid>

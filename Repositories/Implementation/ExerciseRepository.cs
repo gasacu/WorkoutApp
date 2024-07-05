@@ -1,6 +1,7 @@
 ﻿using WorkoutApp.Context;
 using WorkoutApp.DTOs;
 using WorkoutApp.Entities;
+using WorkoutApp.Mappers;
 using WorkoutApp.Repositories.Interfaces;
 
 namespace WorkoutApp.Repositories.Implementation
@@ -15,12 +16,7 @@ namespace WorkoutApp.Repositories.Implementation
 
         public async Task AddExercise(ExerciseDto exerciseDto)
         {
-            Exercise exercise = new Exercise()
-            {
-                Description = exerciseDto.Description,
-                Type = exerciseDto.Type,
-                ExerciseLogs = exerciseDto.ExerciseLogs,
-            };
+            var exercise = ExerciseMapper.ToExercise(exerciseDto);
 
             _context.Exercises.Add(exercise);
             _context.SaveChanges();
@@ -62,12 +58,8 @@ namespace WorkoutApp.Repositories.Implementation
             {
                 foreach (var exercise in allExercises)
                 {
-                    exercises.Add(new ExerciseDto()
-                    {
-                        Description = exercise.Description,
-                        Type = exercise.Type,
-                        Id = exercise.Id
-                    });
+                    var exerciseDto = ExerciseMapper.ToExerciseDto(exercise);
+                    exercises.Add(exerciseDto);
                 }
             }
 
@@ -77,13 +69,8 @@ namespace WorkoutApp.Repositories.Implementation
         public ExerciseDto GetExerciseById(int id)
         {
             var exercise = _context.Exercises.FirstOrDefault(x => x.Id == id);
-            ExerciseDto exerciseDto = new ExerciseDto()
-            {
-                Id = id,
-                Description = exercise.Description,
-                Type = exercise.Type,
-                ExerciseLogs = exercise.ExerciseLogs
-            };
+
+            var exerciseDto = ExerciseMapper.ToExerciseDto(exercise);
 
             return exerciseDto;
         }

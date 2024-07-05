@@ -23,15 +23,21 @@ namespace WorkoutApp.Components.Pages.Users
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
-        public async Task AddUser()
+        public async Task Save()
         {
-            await UserRepository.AddUser(user);
-
-
-            //NavigationManager.NavigateTo("/users");
+            if(UserId == null)
+            {
+                await UserRepository.AddUser(user);
+            }
+            else
+            {
+                UserRepository.EditUser(user);
+            }
+            
             await InvokeAsync(() => NavigationManager.NavigateTo("/users"));
 
         }
+
 
         protected override void OnParametersSet()
         {
@@ -41,15 +47,7 @@ namespace WorkoutApp.Components.Pages.Users
             }
         }
 
-        public async Task EditUser()
-        {
-            UserRepository.EditUser(user);
-
-
-            //NavigationManager.NavigateTo("/users");
-            await InvokeAsync(() => NavigationManager.NavigateTo("/users"));
-
-        }
+        
 
         
     }

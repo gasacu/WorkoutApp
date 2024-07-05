@@ -4,6 +4,7 @@ using System.Linq;
 using WorkoutApp.Context;
 using WorkoutApp.DTOs;
 using WorkoutApp.Entities;
+using WorkoutApp.Mappers;
 using WorkoutApp.Repositories.Interfaces;
 
 namespace WorkoutApp.Repositories.Implementation
@@ -26,15 +27,8 @@ namespace WorkoutApp.Repositories.Implementation
             {
                 foreach (var user in allUsers) 
                 {
-                    users.Add(new UserDto() 
-                    {
-                        Birthday = user.Birthday,
-                        FirstName = user.FirstName,
-                        LastName = user.LastName,
-                        Gender = user.Gender.ToString(),
-                        Workouts = user.Workouts,
-                        Id = user.Id
-                    });
+                    var userDto = UserMapper.ToUserDto(user);
+                    users.Add(userDto);
                 }
             }
 
@@ -44,28 +38,15 @@ namespace WorkoutApp.Repositories.Implementation
         public UserDto GetUserById(int id)
         {
             var user = _context.Users.FirstOrDefault(x => x.Id == id);
-            UserDto userDto = new UserDto()
-            {
-                Id = id,
-                Birthday = user.Birthday,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Workouts = user.Workouts
-            };
+
+            var userDto = UserMapper.ToUserDto(user);
 
             return userDto;
         }
 
         public async Task AddUser(UserDto userDto) 
         {
-            User user = new User() 
-            {
-                Birthday = userDto.Birthday, 
-                Gender = userDto.Gender.ToString(),
-                FirstName = userDto.FirstName,
-                LastName = userDto.LastName,
-                Workouts = userDto.Workouts
-            };
+            var user = UserMapper.ToUser(userDto);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync(); 
@@ -76,6 +57,7 @@ namespace WorkoutApp.Repositories.Implementation
         public void EditUser(UserDto userDto)
         {
             var existingUser = _context.Users.FirstOrDefault(x => x.Id == userDto.Id);
+
             if (existingUser != null)
             {
                 existingUser.Id = userDto.Id;
@@ -85,12 +67,9 @@ namespace WorkoutApp.Repositories.Implementation
                 existingUser.LastName = userDto.LastName;
                 existingUser.Workouts = userDto.Workouts;
                 
-
                 _context.Users.Update(existingUser);
                 _context.SaveChanges();
             }
-
-         
         }
 
         public void DeleteUser(int id)

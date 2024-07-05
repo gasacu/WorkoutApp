@@ -9,83 +9,48 @@
 {
     <PageTitle>Create a new User</PageTitle>
     <h3>Create a new User</h3>
-
-
-    <EditForm Enhance Model="@user" OnValidSubmit="@AddUser" FormName="AddUserForm">
-        <DataAnnotationsValidator />
-
-        <div class="form-group">
-            <label>First Name :</label>
-            <InputText @bind-Value="@user.FirstName" class="form-control col-sm-3" />
-            <ValidationMessage For="@(() => @user.FirstName)" />
-        </div>
-        <div class="form-group">
-            <label>Last Name :</label>
-            <InputText @bind-Value="@user.LastName" class="form-control col-sm-3" />
-            <ValidationMessage For="@(() => @user.LastName)" />
-        </div>
-        <div class="form-group">
-            <label> Select your gender: </label>
-            <InputSelect @bind-Value="@user.Gender">
-                <option value="">--Select One--</option>
-                @foreach (var gender in Enum.GetValues(typeof(Gender)))
-                {
-                    <option value="@gender.ToString()">@gender</option>
-                }
-            </InputSelect>
-            <ValidationMessage For="@(() => user.Gender)" />
-        </div>
-        <div class="form-group">
-            <label>Birthday :</label>
-            <InputDate @bind-Value="@user.Birthday" class="form-control col-sm-3" />
-            <ValidationMessage For="@(() => @user.Birthday)" />
-        </div>
-        <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Save" />
-            <a href="/users" class="btn btn-secondary shadow-none ms-3">Back to List</a>
-        </div>
-    </EditForm>
 }
 else
 {
     <PageTitle>Edit @user.FirstName</PageTitle>
     <h3>Edit @user.FirstName</h3>
-
-    <EditForm Enhance Model="@user" OnValidSubmit="@EditUser" FormName="EditUserForm">
-        <DataAnnotationsValidator />
-  
-
-        <div class="form-group">
-            <label>First Name :</label>
-            <InputText @bind-Value="@user.FirstName" class="form-control col-sm-3" />
-            <ValidationMessage For="@(() => @user.FirstName)" />
-        </div>
-        <div class="form-group">
-            <label>Last Name :</label>
-            <InputText @bind-Value="@user.LastName" class="form-control col-sm-3" />
-            <ValidationMessage For="@(() => @user.LastName)" />
-        </div>
-        <div class="form-group">
-            <label>Select your gender: </label>
-            <InputSelect @bind-Value="@user.Gender">
-                @foreach (var gender in Enum.GetValues(typeof(Gender)))
-                {
-                    <option value="@gender.ToString()">@gender</option>
-                }
-            </InputSelect>
-            <ValidationMessage For="@(() => @user.Gender)" />
-        </div>
-        <div class="form-group">
-            <label>Birthday :</label>
-            <InputDate @bind-Value="@user.Birthday" class="form-control col-sm-3" />
-            <ValidationMessage For="@(() => @user.Birthday)" />
-        </div>
-        <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Save" />
-            <a href="/users" class="btn btn-secondary shadow-none ms-3">Back to List</a>
-        </div>
-    </EditForm>
 }
+
+
+<EditForm Enhance Model="@user" OnValidSubmit="@Save" FormName="AddUserForm">
+    <DataAnnotationsValidator />
+
+    <div class="form-group">
+        <label>First Name :</label>
+        <InputText @bind-Value="@user.FirstName" class="form-control col-sm-3" />
+        <ValidationMessage For="@(() => @user.FirstName)" />
+    </div>
+    <div class="form-group">
+        <label>Last Name :</label>
+        <InputText @bind-Value="@user.LastName" class="form-control col-sm-3" />
+        <ValidationMessage For="@(() => @user.LastName)" />
+    </div>
+    <div class="form-group">
+        <label> Select your gender: </label>
+        <InputSelect @bind-Value="@user.Gender">
+            <option value="">--Select One--</option>
+            @foreach (var gender in Enum.GetValues(typeof(Gender)))
+            {
+                <option value="@gender.ToString()">@gender</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => user.Gender)" />
+    </div>
+    <div class="form-group">
+        <label>Birthday :</label>
+        <InputDate @bind-Value="@user.Birthday" class="form-control col-sm-3" />
+        <ValidationMessage For="@(() => @user.Birthday)" />
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary" value="Save" />
+        <a href="/users" class="btn btn-secondary shadow-none ms-3">Back to List</a>
+    </div>
+</EditForm>
 
 
 

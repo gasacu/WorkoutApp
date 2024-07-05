@@ -17,6 +17,9 @@ namespace WorkoutApp.DTOs
         [StringLength(100, ErrorMessage = "LastName cannot be longer that 100 characters")]
         public string LastName { get; set; }
 
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [Required(ErrorMessage = "Birthday is required")]
         public DateTime Birthday { get; set; }
 
         [Column(TypeName = "nvarchar(1)")]
