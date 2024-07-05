@@ -1,4 +1,5 @@
-﻿using Blazorise.DataGrid;
+﻿using Blazorise;
+using Blazorise.DataGrid;
 using Microsoft.AspNetCore.Components;
 using WorkoutApp.DTOs;
 using WorkoutApp.Entities;
@@ -14,13 +15,15 @@ namespace WorkoutApp.Components.Pages.Exercises
 
         private ExerciseDto SelectedExercise;
 
-        public DeleteConfirmationDialog DeleteConfirmation;
-
         [Inject]
         public IExerciseRepository ExerciseRepository { get; set; }
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
+
+        private Modal modalRef;
+
+        private bool cancelClose;
 
         protected override void OnInitialized()
         {
@@ -35,24 +38,48 @@ namespace WorkoutApp.Components.Pages.Exercises
             }
         }
 
-        private void DeleteExercise(CommandContext<ExerciseDto?> context)
+
+        private void OnDeleteButtonClicked(DeleteCommandContext<ExerciseDto> context)
         {
+
             SelectedExercise = context.Item;
-            if (DeleteConfirmation is null || SelectedExercise is null)
+
+            if (modalRef is null || SelectedExercise is null)
             {
                 return;
             }
 
-            DeleteConfirmation.Show();
+            modalRef.Show();
         }
 
-        private async Task HandleDeleteConfirmed(bool confirmed)
+        private Task OnModalClosing(ModalClosingEventArgs e)
+        {
+            // just set Cancel to prevent modal from closing
+            e.Cancel = cancelClose
+                || e.CloseReason != CloseReason.UserClosing;
+
+            return Task.CompletedTask;
+        }
+
+        private Task CloseModal()
+        {
+            cancelClose = false;
+
+            return modalRef.Hide();
+        }
+
+
+        private Task TryCloseModal()
         {
             if (SelectedExercise != null)
             {
                 ExerciseRepository.DeleteExercise(SelectedExercise.Id);
-                OnInitializedAsync();
+                OnInitialized();
             }
+
+            cancelClose = false;
+            return modalRef.Hide();
         }
+
     }
 }

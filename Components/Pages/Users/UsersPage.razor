@@ -5,9 +5,22 @@
 
 <PageTitle>Users</PageTitle>
 
-<h3>Users</h3>
 
-<a href="user/add" class="btn btn-primary">Add User</a>
+<Card>
+    <CardBody>
+        <CardTitle Size="2">
+            Users
+        </CardTitle>
+        <CardText>
+            Here is a list with all of your clients. 
+            You can add one, update or delete it.
+        </CardText>
+        <Button Color="Color.Primary" Margin="Margin.Is3.FromTop" Clicked="() => OnAddButtonClicked()">
+            Add User
+            <Icon Name="IconName.ArrowRight" />
+        </Button>
+    </CardBody>
+</Card>
 
 
 <DataGrid TItem="UserDto"
@@ -15,24 +28,43 @@
           Filterable
           FilterMethod="DataGridFilterMethod.StartsWith"
           Editable
+          ShowPager
+          ShowPageSizes
           Responsive>
 
+
     <DataGridColumns>
-        <DataGridColumn TItem="UserDto" Field="FirstName" Caption="First Name" Editable></DataGridColumn>
-        <DataGridColumn TItem="UserDto" Field="LastName" Caption="Last Name" Editable></DataGridColumn>
-        <DataGridColumn TItem="UserDto" Field="Birthday" Caption="Birthday" Editable></DataGridColumn>
-        <DataGridColumn TItem="UserDto" Field="Gender" Caption="Gender" Editable></DataGridColumn>
-        <DataGridCommandColumn TItem="UserDto" Caption="Action" ClearFilterCommandAllowed="false">
-            <EditCommandTemplate>
-                <Button Color="Color.Primary" Clicked="() => EditUser(context)">Edit</Button>
-            </EditCommandTemplate>
-            <DeleteCommandTemplate>
-                <Button Color="Color.Danger" Clicked="() => DeleteUser(context)">Delete</Button>
-            </DeleteCommandTemplate>
-        </DataGridCommandColumn>
+        <DataGridColumn TItem="UserDto" Field="FirstName" Caption="First Name"></DataGridColumn>
+        <DataGridColumn TItem="UserDto" Field="LastName" Caption="Last Name"></DataGridColumn>
+        <DataGridColumn TItem="UserDto" Field="Birthday" Caption="Birthday"></DataGridColumn>
+        <DataGridColumn TItem="UserDto" Field="Gender" Caption="Gender"></DataGridColumn>
+       
+            <DataGridCommandColumn TItem="UserDto" Caption="Action" ClearFilterCommandAllowed="true">
+                <EditCommandTemplate>
+                    <Button Color="Color.Primary" Clicked="() => EditUser(context)">Edit</Button>
+                </EditCommandTemplate>
+                <DeleteCommandTemplate>
+                    <Button Color="Color.Danger" Clicked="() => OnDeleteButtonClicked(context)">Delete</Button>
+                    <Modal @ref="modalRef" Closing="@OnModalClosing">
+                        <ModalContent Centered>
+                            <ModalHeader>
+                                <ModalTitle>Confirm Delete</ModalTitle>
+                            </ModalHeader>
+                            <ModalBody>
+                                Are you sure you want to delete the user "@SelectedUser?.FirstName @SelectedUser?.LastName"?
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button Color="Color.Secondary" Clicked="@CloseModal">No</Button>
+                                <Button Color="Color.Primary" Clicked="@TryCloseModal">Yes</Button>
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
+                </DeleteCommandTemplate>
+            </DataGridCommandColumn>
+     
+        
+
     </DataGridColumns>
 
 </DataGrid>
-
-<DeleteConfirmationDialog @ref="DeleteConfirmation" OnConfirm="HandleDeleteConfirmed" />
 

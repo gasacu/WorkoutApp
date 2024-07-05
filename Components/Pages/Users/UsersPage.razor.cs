@@ -1,4 +1,5 @@
-﻿using Blazorise.DataGrid;
+﻿using Blazorise;
+using Blazorise.DataGrid;
 using Microsoft.AspNetCore.Components;
 using System.Collections;
 using WorkoutApp.DTOs;
@@ -13,9 +14,8 @@ namespace WorkoutApp.Components.Pages.Users
         [SupplyParameterFromForm]
         private List<UserDto> UsersData { get; set; }
 
-        private UserDto SelectedUser;
-
-        public DeleteConfirmationDialog DeleteConfirmation;
+       
+        private UserDto SelectedUser { get; set; }
 
         [Inject]
         public IUserRepository UserRepository { get; set; }
@@ -23,11 +23,19 @@ namespace WorkoutApp.Components.Pages.Users
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
-        
+
+        private Modal modalRef;
+
+        private bool cancelClose;
 
         protected override void OnInitialized()
         {
             UsersData = UserRepository.GetAllUsers().OrderByDescending(p => p.Id).ToList();
+        }
+
+        private void OnAddButtonClicked()
+        {
+            NavigationManager.NavigateTo($"/user/add");
         }
 
         private void EditUser(EditCommandContext<UserDto> context)
@@ -38,25 +46,54 @@ namespace WorkoutApp.Components.Pages.Users
             }
         }
 
-        private void DeleteUser(DeleteCommandContext<UserDto?> context)
+        private void OnDeleteButtonClicked(DeleteCommandContext<UserDto> context)
         {
+
             SelectedUser = context.Item;
-            if (DeleteConfirmation is null || SelectedUser is null)
+
+            if (modalRef is null || SelectedUser is null)
             {
                 return;
             }
 
-            DeleteConfirmation.Show();
+            modalRef.Show();
         }
 
-        private async Task HandleDeleteConfirmed(bool confirmed)
+        private Task OnModalClosing(ModalClosingEventArgs e)
+        {
+            // just set Cancel to prevent modal from closing
+            e.Cancel = cancelClose
+                || e.CloseReason != CloseReason.UserClosing;
+
+            return Task.CompletedTask;
+        }
+
+        private Task CloseModal()
+        {
+            cancelClose = false;
+
+            return modalRef.Hide();
+        }
+
+
+        private Task TryCloseModal()
         {
             if (SelectedUser != null)
             {
                 UserRepository.DeleteUser(SelectedUser.Id);
-                OnInitializedAsync();
+                OnInitialized();
             }
+
+            cancelClose = false;
+            return modalRef.Hide();
         }
+
+
+
+        
+
+
+
     }
 }
 

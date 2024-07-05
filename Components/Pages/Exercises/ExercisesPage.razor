@@ -16,6 +16,8 @@
           Filterable
           FilterMethod="DataGridFilterMethod.StartsWith"
           Editable
+          ShowPager
+          ShowPageSizes
           Responsive>
 
     <DataGridColumns>
@@ -26,11 +28,25 @@
                 <Button Color="Color.Primary" Clicked="() => EditExercise(context)">Edit</Button>
             </EditCommandTemplate>
             <DeleteCommandTemplate>
-                <Button Color="Color.Danger" Clicked="() => DeleteExercise(context)">Delete</Button>
+                <Button Color="Color.Danger" Clicked="() => OnDeleteButtonClicked(context)">Delete</Button>
+                <Modal @ref="modalRef" Closing="@OnModalClosing">
+                    <ModalContent Centered>
+                        <ModalHeader>
+                            <ModalTitle>Confirm Delete</ModalTitle>
+                        </ModalHeader>
+                        <ModalBody>
+                            Are you sure you want to delete the "@SelectedExercise?.Description" exercise?
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button Color="Color.Secondary" Clicked="@CloseModal">No</Button>
+                            <Button Color="Color.Primary" Clicked="@TryCloseModal">Yes</Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
             </DeleteCommandTemplate>
+           
         </DataGridCommandColumn>
     </DataGridColumns>
 
 </DataGrid>
 
-<DeleteConfirmationDialog @ref="DeleteConfirmation" OnConfirm="HandleDeleteConfirmed" />
