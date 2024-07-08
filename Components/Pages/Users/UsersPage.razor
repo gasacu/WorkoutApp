@@ -5,7 +5,6 @@
 
 <PageTitle>Users</PageTitle>
 
-
 <Card>
     <CardBody>
         <CardTitle Size="2">
@@ -38,10 +37,14 @@
         <DataGridColumn TItem="UserDto" Field="LastName" Caption="Last Name"></DataGridColumn>
         <DataGridColumn TItem="UserDto" Field="Birthday" Caption="Birthday"></DataGridColumn>
         <DataGridColumn TItem="UserDto" Field="Gender" Caption="Gender"></DataGridColumn>
+        <DataGridColumn TItem="UserDto" Field="Email" Caption="Email"></DataGridColumn>
+        <DataGridColumn TItem="UserDto" Field="IsTrainer" Caption="IsTrainer"></DataGridColumn>
+
        
             <DataGridCommandColumn TItem="UserDto" Caption="Action" ClearFilterCommandAllowed="true">
                 <EditCommandTemplate>
-                <Button Color="Color.Primary" Clicked="() => OnAddWorkoutButtonClicked(context)">Add Workout</Button>
+                    <Button Color="Color.Primary" Clicked="() => OnAddWorkoutButtonClicked(context)">Add Workout</Button>
+                    <Button Color="Color.Primary" Clicked="() => SeeWorkoutsButtonClicked(context)">See Workouts</Button>
                     <Button Color="Color.Primary" Clicked="() => EditUser(context)">Edit</Button>
                 </EditCommandTemplate>
                 <DeleteCommandTemplate>
@@ -63,9 +66,6 @@
                 </DeleteCommandTemplate>
             </DataGridCommandColumn>
      
-        
-
     </DataGridColumns>
-
 </DataGrid>
 

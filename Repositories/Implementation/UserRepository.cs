@@ -66,6 +66,8 @@ namespace WorkoutApp.Repositories.Implementation
                 existingUser.FirstName = userDto.FirstName;
                 existingUser.LastName = userDto.LastName;
                 existingUser.Workouts = userDto.Workouts;
+                existingUser.Email = userDto.Email;
+                existingUser.IsTrainer = userDto.IsTrainer;
                 
                 _context.Users.Update(existingUser);
                 _context.SaveChanges();

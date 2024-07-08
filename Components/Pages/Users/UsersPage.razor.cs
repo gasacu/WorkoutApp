@@ -38,6 +38,24 @@ namespace WorkoutApp.Components.Pages.Users
             NavigationManager.NavigateTo($"/user/add");
         }
 
+        // add workout for user
+        private void OnAddWorkoutButtonClicked(EditCommandContext<UserDto> context)
+        {
+            if (context != null && context.Item != null)
+            {
+                NavigationManager.NavigateTo($"/workout/add/{context.Item.Id}");
+            }
+        }
+
+        // see workouts for user
+        private void SeeWorkoutsButtonClicked(EditCommandContext<UserDto> context)
+        {
+            if (context != null && context.Item != null)
+            {
+                NavigationManager.NavigateTo($"/workouts/{context.Item.Id}");
+            }
+        }
+
         private void EditUser(EditCommandContext<UserDto> context)
         {
             if (context != null && context.Item != null)
@@ -90,14 +108,7 @@ namespace WorkoutApp.Components.Pages.Users
 
         
 
-        // add workout for user
-        private void OnAddWorkoutButtonClicked(EditCommandContext<UserDto> context)
-        {
-            if (context != null && context.Item != null)
-            {
-                NavigationManager.NavigateTo($"/workout/add/{context.Item.Id}");
-            }
-        }
+        
 
 
 

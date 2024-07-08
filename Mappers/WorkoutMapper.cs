@@ -23,6 +23,7 @@ namespace WorkoutApp.Mappers
                 Name = workout.Name,
                 Date = workout.Date,
                 UserId = workout.UserId,
+                User = workout.User,
                 Id = workout.Id
             };
         }

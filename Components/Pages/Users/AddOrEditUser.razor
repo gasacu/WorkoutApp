@@ -47,6 +47,16 @@ else
         <ValidationMessage For="@(() => @user.Birthday)" />
     </div>
     <div class="form-group">
+        <label>Email :</label>
+        <InputText @bind-Value="@user.Email" class="form-control col-sm-3" />
+        <ValidationMessage For="@(() => @user.Email)" />
+    </div>
+    <div class="form-group">
+        <label>IsTrainer :</label>
+        <InputCheckbox @bind-Value="@user.IsTrainer" style="transform: scale(2); margin-left: 15px" />
+        <ValidationMessage For="@(() => @user.IsTrainer)" />
+    </div>
+    <div class="form-group">
         <input type="submit" class="btn btn-primary" value="Save" />
         <a href="/users" class="btn btn-secondary shadow-none ms-3">Back to List</a>
     </div>

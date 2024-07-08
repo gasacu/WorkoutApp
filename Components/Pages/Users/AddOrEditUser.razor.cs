@@ -38,7 +38,6 @@ namespace WorkoutApp.Components.Pages.Users
 
         }
 
-
         protected override void OnParametersSet()
         {
             if (UserId != null)
@@ -46,9 +45,6 @@ namespace WorkoutApp.Components.Pages.Users
                 user = UserRepository.GetUserById(UserId.Value);
             }
         }
-
-        
-
         
     }
 }

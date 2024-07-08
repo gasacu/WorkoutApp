@@ -1,4 +1,5 @@
 ﻿@page "/workouts"
+@page "/workouts/{UserId:int}"
 @using WorkoutApp.DTOs
 @attribute [StreamRendering]
 @rendermode InteractiveServer
@@ -19,13 +20,24 @@
     <DataGridColumns>
         <DataGridColumn TItem="WorkoutDto" Field="Name" Caption="Name" Editable></DataGridColumn>
         <DataGridColumn TItem="WorkoutDto" Field="Date" Caption="Date" Editable></DataGridColumn>
-        <DataGridColumn TItem="WorkoutDto" Field="UserId" Caption="User Id" Editable></DataGridColumn>
+        <DataGridColumn TItem="WorkoutDto" Field="User.FirstName" Caption="User">
+            <DisplayTemplate>
+                @{
+                    var user = (context as WorkoutDto)?.User;
 
-        <DataGridCommandColumn TItem="WorkoutDto" Caption="Action" ClearFilterCommandAllowed="false">
+                    if (user != null)
+                    {
+                        @($"{user.FirstName} {user.LastName}")
+                    }
+                }
+            </DisplayTemplate>
+        </DataGridColumn>
+
+        <DataGridCommandColumn TItem="WorkoutDto" Caption="Action" ClearFilterCommandAllowed="true">
             <EditCommandTemplate>
+                <Button Color="Color.Primary" Clicked="() => OnAddExerciseLogButtonClicked(context)">Add ExerciseLog</Button>
                 <Button Color="Color.Primary" Clicked="() => EditWorkout(context)">Edit</Button>
             </EditCommandTemplate>
-
             <DeleteCommandTemplate>
                 <Button Color="Color.Danger" Clicked="() => OnDeleteButtonClicked(context)">Delete</Button>
                 <Modal @ref="modalRef" Closing="@OnModalClosing">
@@ -43,8 +55,7 @@
                     </ModalContent>
                 </Modal>
             </DeleteCommandTemplate>
-
         </DataGridCommandColumn>
-    </DataGridColumns>
 
+    </DataGridColumns>
 </DataGrid>

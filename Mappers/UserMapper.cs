@@ -13,6 +13,8 @@ namespace WorkoutApp.Mappers
                 LastName = userDto.LastName,
                 Birthday = userDto.Birthday,
                 Gender = userDto.Gender,
+                Email = userDto.Email,
+                IsTrainer = userDto.IsTrainer,
                 Id = userDto.Id
             };
         }
@@ -25,6 +27,8 @@ namespace WorkoutApp.Mappers
                 LastName = user.LastName,
                 Birthday = user.Birthday,
                 Gender = user.Gender,
+                Email= user.Email,
+                IsTrainer = user.IsTrainer,
                 Id = user.Id
             };
         }

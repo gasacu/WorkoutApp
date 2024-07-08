@@ -22,7 +22,7 @@ namespace WorkoutApp.Repositories.Implementation
         {
 
             var workouts = new List<WorkoutDto>();
-            var allWorkouts = _context.Workouts.ToList();
+            var allWorkouts = _context.Workouts.Include(x => x.User).ToList();
             if (allWorkouts?.Any() == true)
             {
                 foreach (var workout in allWorkouts)
@@ -42,6 +42,24 @@ namespace WorkoutApp.Repositories.Implementation
             var workoutDto = WorkoutMapper.ToWorkoutDto(workout);
 
             return workoutDto;
+        }
+
+        public IList<WorkoutDto> GetWorkoutsByUserId(int id)
+        {
+
+            var workouts = new List<WorkoutDto>();
+            var allWorkouts = _context.Workouts.Where(w => w.UserId == id).Include(x => x.User).ToList();
+            if (allWorkouts?.Any() == true)
+            {
+                foreach (var workout in allWorkouts)
+                {
+                    var workoutDto = WorkoutMapper.ToWorkoutDto(workout);
+                    workouts.Add(workoutDto);
+                }
+            }
+
+            return workouts;
+
         }
 
         public async Task AddWorkout(WorkoutDto workoutDto)

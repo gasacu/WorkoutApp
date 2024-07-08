@@ -15,8 +15,14 @@ namespace WorkoutApp.Components.Pages.Workouts
 
         private WorkoutDto SelectedWorkout;
 
+        [Parameter]
+        public int? UserId { get; set; }
+
         [Inject]
         public IWorkoutRepository WorkoutRepository { get; set; }
+
+        [Inject]
+        public IUserRepository UserRepository { get; set; }
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
@@ -27,7 +33,23 @@ namespace WorkoutApp.Components.Pages.Workouts
 
         protected override void OnInitialized()
         {
-            WorkoutsData = WorkoutRepository.GetAllWorkouts().ToList();
+            if (UserId == null)
+            {
+                WorkoutsData = WorkoutRepository.GetAllWorkouts().ToList();
+            }
+            else
+            {
+                WorkoutsData = WorkoutRepository.GetWorkoutsByUserId(UserId.Value).ToList();
+            }
+        }
+
+        // add Exercise Log for Workout
+        private void OnAddExerciseLogButtonClicked(EditCommandContext<WorkoutDto> context)
+        {
+            if (context != null && context.Item != null)
+            {
+                NavigationManager.NavigateTo($"/exerciselog/add/{context.Item.Id}");
+            }
         }
 
         private void EditWorkout(EditCommandContext<WorkoutDto> context)
@@ -80,5 +102,10 @@ namespace WorkoutApp.Components.Pages.Workouts
             cancelClose = false;
             return modalRef.Hide();
         }
+
+        
+
+
+
     }
 }

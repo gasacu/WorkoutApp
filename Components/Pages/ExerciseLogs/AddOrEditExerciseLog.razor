@@ -1,0 +1,51 @@
+﻿@page "/exerciselog/add/{WorkoutId:int}"
+@page "/exerciselog/edit/{ExerciseLogId:int}"
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+
+<PageTitle>Add Exercise Log</PageTitle>
+<h3>Add a new Exercise Log for workout: @workout.Name</h3>
+
+
+
+<EditForm Model="@exerciseLog" OnValidSubmit="@Save" FormName="AddExerciseLogForm">
+    <DataAnnotationsValidator />
+
+    <div class="form-group">
+        <label>Select the exercise:</label>
+        <div>
+            <InputSelect @bind-Value="exerciseLog.ExerciseId" class="form-control col-sm-3">
+                @foreach (var exercise in exercises)
+                {
+                    <option value="@exercise.Id">@exercise.Type</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => exerciseLog.ExerciseId)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Reps :</label>
+        <InputNumber @bind-Value="@exerciseLog.Reps" class="form-control col-sm-3" />
+        <ValidationMessage For="@(() => @exerciseLog.Reps)" />
+    </div>
+    <div class="form-group">
+        <label>Duration :</label>
+        <InputNumber @bind-Value="@exerciseLog.Duration" class="form-control col-sm-3" />
+        <ValidationMessage For="@(() => @exerciseLog.Duration)" />
+    </div>
+    @if (ExerciseLogId == null)
+    {
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Save" />
+            <a href="/workouts" class="btn btn-secondary shadow-none ms-3">Back to List</a>
+        </div>
+    }
+    else
+    {
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Save" />
+            <a href="/exerciselogs" class="btn btn-secondary shadow-none ms-3">Back to List</a>
+        </div>
+    }
+
+</EditForm>

@@ -7,6 +7,7 @@ namespace WorkoutApp.Repositories.Interfaces
     {
         IList<WorkoutDto> GetAllWorkouts();
         WorkoutDto GetWorkoutById(int id);
+        IList<WorkoutDto> GetWorkoutsByUserId(int id);
         Task AddWorkout(WorkoutDto workoutDto);
         void EditWorkout(WorkoutDto workoutDto);
         void DeleteWorkout(int id);
