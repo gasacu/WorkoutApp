@@ -71,10 +71,6 @@ namespace WorkoutApp.Components.Pages.ExerciseLogs
                 exerciseLog.WorkoutId = workout.Id;
                 await ExerciseLogRepository.AddExerciseLog(exerciseLog);
             }
-            else
-            {
-                ExerciseLogRepository.EditExerciseLog(exerciseLog);
-            }
 
             await InvokeAsync(() => NavigationManager.NavigateTo("/exerciselogs"));
         }

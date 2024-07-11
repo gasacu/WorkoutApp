@@ -5,6 +5,8 @@ using WorkoutApp.DTOs;
 using WorkoutApp.Entities;
 using WorkoutApp.Repositories.Implementation;
 using WorkoutApp.Repositories.Interfaces;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using WorkoutApp.Authorization;
 
 namespace WorkoutApp.Components.Pages.Workouts
 {
@@ -14,6 +16,8 @@ namespace WorkoutApp.Components.Pages.Workouts
         public List<WorkoutDto> WorkoutsData { get; set; }
 
         private WorkoutDto SelectedWorkout;
+
+        public UserDto User { get; set; }
 
         [Parameter]
         public int? UserId { get; set; }
@@ -27,11 +31,15 @@ namespace WorkoutApp.Components.Pages.Workouts
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
+        [Inject] public IAuthorizationService AuthorizationService { get; set; }
+
+        [Inject] public ProtectedSessionStorage SessionStorage { get; set; }
+
         private Modal modalRef;
 
         private bool cancelClose;
 
-        protected override void OnInitialized()
+        protected override async Task OnParametersSetAsync()
         {
             if (UserId == null)
             {
@@ -40,6 +48,8 @@ namespace WorkoutApp.Components.Pages.Workouts
             else
             {
                 WorkoutsData = WorkoutRepository.GetWorkoutsByUserId(UserId.Value).ToList();
+                var user = await SessionStorage.GetAsync<UserDto>("UserSession");
+                User = UserRepository.GetUserById(user.Value.Id);
             }
         }
 

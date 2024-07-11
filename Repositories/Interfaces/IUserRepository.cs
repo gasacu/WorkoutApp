@@ -11,7 +11,8 @@ namespace WorkoutApp.Repositories.Interfaces
         Task AddUser(UserDto userDto);
         void EditUser(UserDto userDto);
         void DeleteUser(int id);
- 
+
+        User GetUserByEmail(string email);
     }
 
 }

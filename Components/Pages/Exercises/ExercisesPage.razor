@@ -6,9 +6,9 @@
 
 <PageTitle>Exercises</PageTitle>
 
-<h3>Exercises</h3>
+<Heading Size="HeadingSize.Is2" Padding="Padding.Is3" TextAlignment="TextAlignment.Center">Exercises</Heading><hr />
 
-<a href="exercise/add" class="btn btn-primary">Add Exercise</a>
+<a href="exercise/add" style="color: #fff;" class="PrimaryButton">Add Exercise -></a><br /><br />
 
 
 <DataGrid TItem="ExerciseDto"
@@ -18,17 +18,20 @@
           Editable
           ShowPager
           ShowPageSizes
+          Hoverable
+          Narrow
           Responsive>
 
     <DataGridColumns>
-        <DataGridColumn TItem="ExerciseDto" Field="Description" Caption="Description" Editable></DataGridColumn>
-        <DataGridColumn TItem="ExerciseDto" Field="Type" Caption="Type" Editable></DataGridColumn>
-        <DataGridCommandColumn TItem="ExerciseDto" Caption="Action" ClearFilterCommandAllowed="false">
+        <DataGridColumn TItem="ExerciseDto" Field="Type" Caption="Type" TextAlignment="TextAlignment.Center"></DataGridColumn>
+        <DataGridColumn TItem="ExerciseDto" Field="Description" Caption="Description" TextAlignment="TextAlignment.Center"></DataGridColumn>
+        
+        <DataGridCommandColumn TItem="ExerciseDto" TextAlignment="TextAlignment.Center" DeleteCommandAllowed="true">
             <EditCommandTemplate>
-                <Button Color="Color.Primary" Clicked="() => EditExercise(context)">Edit</Button>
+                <Button Color="Color.Warning"  Size="Size.Small" Clicked="() => EditExercise(context)">Edit</Button>
             </EditCommandTemplate>
             <DeleteCommandTemplate>
-                <Button Color="Color.Danger" Clicked="() => OnDeleteButtonClicked(context)">Delete</Button>
+                <Button Color="Color.Danger"  Size="Size.Small" Clicked="() => OnDeleteButtonClicked(context)">Delete</Button>
                 <Modal @ref="modalRef" Closing="@OnModalClosing">
                     <ModalContent Centered>
                         <ModalHeader>
@@ -38,8 +41,8 @@
                             Are you sure you want to delete the "@SelectedExercise?.Description" exercise?
                         </ModalBody>
                         <ModalFooter>
-                            <Button Color="Color.Secondary" Clicked="@CloseModal">No</Button>
-                            <Button Color="Color.Primary" Clicked="@TryCloseModal">Yes</Button>
+                            <Button Class="SecondaryButton" Style="color: #fff" Clicked="@CloseModal">No</Button>
+                            <Button Class="PrimaryButton" Style="color: #fff" Clicked="@TryCloseModal">Yes</Button>
                         </ModalFooter>
                     </ModalContent>
                 </Modal>
@@ -49,4 +52,3 @@
     </DataGridColumns>
 
 </DataGrid>
-

@@ -5,7 +5,7 @@
 
 <PageTitle>Exercise Logs</PageTitle>
 
-<h3>ExerciseLogs</h3>
+<Heading Size="HeadingSize.Is2" Padding="Padding.Is3" TextAlignment="TextAlignment.Center">Exercise Logs</Heading>
 
 
 <DataGrid TItem="ExerciseLogDto"
@@ -15,58 +15,60 @@
           Responsive
           Editable
           ShowPager
+          Hoverable
+          Narrow
           ShowPageSizes>
 
     <DataGridColumns>
-        <DataGridColumn TItem="ExerciseLogDto" Field="Workout.Name" Caption="Workout">
+        <DataGridColumn TItem="ExerciseLogDto" Field="Workout.Name" Caption="Workout" TextAlignment="TextAlignment.Center">
             <DisplayTemplate>
                 @{
                     var workout = (context as ExerciseLogDto)?.Workout;
 
                     if (workout != null)
                     {
-                        @($"{workout.Name} {workout.Name}")
+                        @($"{workout.Name} - {workout.Date}")
                     }
                 }
             </DisplayTemplate>
         </DataGridColumn>
-        <DataGridColumn TItem="ExerciseLogDto" Field="Exercise.Description" Caption="Exercise">
+        <DataGridColumn TItem="ExerciseLogDto" Field="Exercise.Description" Caption="Exercise" TextAlignment="TextAlignment.Center">
             <DisplayTemplate>
                 @{
                     var exercise = (context as ExerciseLogDto)?.Exercise;
 
                     if (exercise != null)
                     {
-                        @($"{exercise.Description} {exercise.Description}")
+                        @($"{exercise.Type} - {exercise.Description}")
                     }
                 }
             </DisplayTemplate>
         </DataGridColumn>
-        <DataGridColumn TItem="ExerciseLogDto" Field="Reps" Caption="Repetitions" Editable></DataGridColumn>
-        <DataGridColumn TItem="ExerciseLogDto" Field="Duration" Caption="Duration" Editable></DataGridColumn>
+        <DataGridColumn TItem="ExerciseLogDto" Field="Reps" Caption="Repetitions" TextAlignment="TextAlignment.Center" Editable></DataGridColumn>
+        <DataGridColumn TItem="ExerciseLogDto" Field="Duration" Caption="Duration" TextAlignment="TextAlignment.Center" Editable></DataGridColumn>
 
-        <DataGridCommandColumn TItem="ExerciseLogDto" Caption="Action" ClearFilterCommandAllowed="true">
-            <EditCommandTemplate>
-                <Button Color="Color.Primary" Clicked="() => EditExerciseLog(context)">Edit</Button>
-            </EditCommandTemplate>
-            <DeleteCommandTemplate>
-                <Button Color="Color.Danger" Clicked="() => OnDeleteButtonClicked(context)">Delete</Button>
-                <Modal @ref="modalRef" Closing="@OnModalClosing">
-                    <ModalContent Centered>
-                        <ModalHeader>
-                            <ModalTitle>Confirm Delete</ModalTitle>
-                        </ModalHeader>
-                        <ModalBody>
-                        Are you sure you want to delete this exercise log?
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button Color="Color.Secondary" Clicked="@CloseModal">No</Button>
-                            <Button Color="Color.Primary" Clicked="@TryCloseModal">Yes</Button>
-                        </ModalFooter>
-                    </ModalContent>
-                </Modal>
-            </DeleteCommandTemplate>
-        </DataGridCommandColumn>
+        <AuthorizeView Roles ="Administrator" Context="authExLogsContext">
+            <DataGridCommandColumn TItem="ExerciseLogDto" Caption="Action" ClearFilterCommandAllowed="true" TextAlignment="TextAlignment.Center">
+                <DeleteCommandTemplate>
+                    <Button Color="Color.Danger" Size="Size.Small" Clicked="() => OnDeleteButtonClicked(context)">Delete</Button>
+                    <Modal @ref="modalRef" Closing="@OnModalClosing">
+                        <ModalContent Centered>
+                            <ModalHeader>
+                                <ModalTitle>Confirm Delete</ModalTitle>
+                            </ModalHeader>
+                            <ModalBody>
+                                Are you sure you want to delete this exercise log?
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button Class="SecondaryButton" Style="color: #fff" Clicked="@CloseModal">No</Button>
+                                <Button Class="PrimaryButton" Style="color: #fff" Clicked="@TryCloseModal">Yes</Button>
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
+                </DeleteCommandTemplate>
+            </DataGridCommandColumn>
+        </AuthorizeView>
+        
 
     </DataGridColumns>
 </DataGrid>

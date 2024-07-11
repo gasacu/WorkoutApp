@@ -36,14 +36,6 @@ namespace WorkoutApp.Components.Pages.ExerciseLogs
             ExerciseLogsData = ExerciseLogRepository.GetAllExerciseLogs().ToList();
         }
 
-   
-        private void EditExerciseLog(EditCommandContext<ExerciseLogDto> context)
-        {
-            if (context != null && context.Item != null)
-            {
-                NavigationManager.NavigateTo($"/exerciselog/edit/{context.Item.Id}");
-            }
-        }
 
         private void OnDeleteButtonClicked(DeleteCommandContext<ExerciseLogDto> context)
         {

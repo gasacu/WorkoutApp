@@ -1,13 +1,34 @@
 ﻿@inherits LayoutComponentBase
+@attribute [StreamRendering]
+@rendermode InteractiveServer
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
+    <AuthorizeView>
+        <div class="sidebar">
+            <NavMenu />
+        </div>
+    </AuthorizeView>
+    
     <main>
         <div class="top-row px-4">
-            
+            <AuthorizeView>
+                <Authorized>
+                    <Dropdown>
+                        <DropdownToggle Color="Color.Light">
+                            <span class="fas fa-user" style="margin-right: 2rem"></span>
+                            @User?.FirstName
+                        </DropdownToggle>
+                        <DropdownMenu>
+                            <DropdownItem Disabled style="margin-left: 5px;">@User?.FirstName @User?.LastName</DropdownItem>
+                            <DropdownItem Disabled style="margin-left: 5px;">@User?.Email</DropdownItem><hr />
+                            <DropdownItem Class="HomeClientButton" Clicked="() => LogOut()" Margin="Margin.Is0"> <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                </Authorized>
+                <NotAuthorized>
+                    <Button Class="PrimaryButton" Style="color: #fff; text-decoration: none;" Type="ButtonType.Link" To="login">LOGIN</Button>
+                </NotAuthorized>
+            </AuthorizeView> 
         </div>
 
         <article class="content px-4">
@@ -21,3 +42,5 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+

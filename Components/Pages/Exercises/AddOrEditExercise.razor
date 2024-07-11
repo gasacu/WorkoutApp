@@ -1,63 +1,69 @@
 ﻿@page "/exercise/add"
 @page "/exercise/edit/{ExerciseId:int}"
+@using Microsoft.AspNetCore.Authorization
 @attribute [StreamRendering]
 @rendermode InteractiveServer
+
 
 
 @if (ExerciseId == null)
 {
     <PageTitle>Create a new Exercise</PageTitle>
-    <h3>Create a new Exercise</h3>
+    <h3>Create a new Exercise</h3><hr />
 
     <EditForm Model="@exercise" OnValidSubmit="@AddExercise" FormName="Form">
         <DataAnnotationsValidator />
 
         <div class="form-group">
-            <label>Description :</label>
+            <label style="font-weight: 600">Description :</label>
             <div>
                 <InputText @bind-Value="@exercise.Description" class="form-control col-sm-3" />
                 <ValidationMessage For="@(() => @exercise.Description)" />
             </div>
         </div>
         <div class="form-group">
-            <label>Type :</label>
+            <label style="font-weight: 600">Type :</label>
             <div>
                 <InputText @bind-Value="@exercise.Type" class="form-control col-sm-3" />
                 <ValidationMessage For="@(() => @exercise.Type)" />
             </div>
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Save" />
-            <a href="/exercises" class="btn btn-secondary shadow-none ms-3">Back to List</a>
+            <Button Class="PrimaryButton" Type="ButtonType.Submit" Style="color: #fff" Margin="Margin.Is3.FromTop">
+                Save
+            </Button>
+            <Button Class="SecondaryButton" Style="color: #fff" Type="ButtonType.Link" To="exercises" Margin="Margin.Is3.FromTop">Back to List</Button>
         </div>
     </EditForm>
 }
 else
 {
     <PageTitle>Edit @exercise.Description</PageTitle>
-    <h3>Edit @exercise.Description</h3>
+    <h3>Edit @exercise.Description</h3><hr />
 
     <EditForm Model="@exercise" OnValidSubmit="@EditExercise" FormName="EditExerciseForm">
         <DataAnnotationsValidator />
 
 
         <div class="form-group">
-            <label>Description :</label>
+            <label style="font-weight: 600">Description :</label>
             <div>
                 <InputText @bind-Value="@exercise.Description" class="form-control col-sm-3" />
                 <ValidationMessage For="@(() => exercise.Description)" />
             </div>
         </div>
         <div class="form-group">
-            <label>Type :</label>
+            <label style="font-weight: 600">Type :</label>
             <div>
                 <InputText @bind-Value="@exercise.Type" class="form-control col-sm-3" />
                 <ValidationMessage For="@(() => exercise.Type)" />
             </div>
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Save" />
-            <a href="/exercises" class="btn btn-secondary shadow-none ms-3">Back to List</a>
+            <Button Class="PrimaryButton" Type="ButtonType.Submit" Style="color: #fff" Margin="Margin.Is3.FromTop">
+                Save
+            </Button>
+            <Button Class="SecondaryButton" Style="color: #fff" Type="ButtonType.Link" To="exercises" Margin="Margin.Is3.FromTop">Back to List</Button>
         </div>
     </EditForm>
 }

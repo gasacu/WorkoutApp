@@ -1,0 +1,46 @@
+﻿@page "/login"
+@using WorkoutApp.Components.Layout
+@using WorkoutApp.Context
+@using WorkoutApp.DTOs
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+
+
+<Card style="flex-direction: row; margin: 50px;">
+	<CardImage Source=".\login.jpg" Alt="Placeholder image" style="width: 250px; height: 250px; margin-right: 100px; margin: 100px" />
+	<CardBody style="padding: 50px;">
+		<CardTitle Size="3">
+			Authentication
+		</CardTitle>
+		<CardText>
+			For authentication, fill your Email and Password
+		</CardText><br />
+		<Divider></Divider>
+		<EditForm Model="@userDto" OnValidSubmit=@TryLogin FormName="trylogin">
+			<div class="form-group">
+				<label style="font-weight: 600">Email:</label>
+				<div>
+					<InputText @bind-Value="@userDto.Email" class="form-control col-sm-5" />
+					<ValidationMessage For="@(() => userDto.Email)" />
+				</div>
+			</div>
+			<div style="font-weight: 600">
+				<label>Password (MMyyyy):</label>
+				<div>
+					<InputText @bind-Value="@Password" class="form-control col-sm-5" />
+					<ValidationMessage For="@(() => @Password)" />
+				</div><br />
+			</div>
+
+			<div class="form-group">
+				<input type="submit" class="btn btn-primary PrimaryButton" value="LOGIN" />
+			</div>
+		</EditForm>
+
+	</CardBody>
+</Card>
+
+@if (FailedLogin)
+{
+	<h1>LOGIN Failed!!</h1>
+}

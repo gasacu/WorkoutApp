@@ -1,15 +1,66 @@
 ﻿@page "/"
+@using WorkoutApp.Components.Layout
+@using WorkoutApp.Context
+@using WorkoutApp.DTOs
+@attribute [StreamRendering]
+@rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
 
-<Jumbotron Background="Background.Light" Margin="Margin.Is4.FromBottom">
-    <JumbotronTitle Size="JumbotronTitleSize.Is4">Hello, TRAINER!</JumbotronTitle>
-    <JumbotronSubtitle>
-        Welcome to your workout planning app where you can plan and manage workouts for your clients.
-    </JumbotronSubtitle>
-    <Divider></Divider>
-    <Paragraph>
-        Here, you can track exercises (sets, reps) and watch your client's progress.
-    </Paragraph>
-</Jumbotron>
+
+
+
+<AuthorizeView>
+    <Authorized>
+        <Jumbotron Background="Background.Light" Margin="Margin.Is3.FromBottom" Style="text-align: center;">
+            <JumbotronTitle Size="JumbotronTitleSize.Is4">Hello, @User?.FirstName!</JumbotronTitle><br />
+            <JumbotronSubtitle>
+                Welcome to your workout planning app, where you can view, plan and manage personalized Workouts for your clients.
+            </JumbotronSubtitle>
+            <Divider></Divider>
+            <JumbotronSubtitle>
+                You can also track Exercises (sets, reps), and watch your client's progress.
+            </JumbotronSubtitle>
+        </Jumbotron>
+        <Div Style="display:flex; align-content: center; justify-content: space-around;">
+            <Jumbotron Margin="Margin.Is3.FromBottom" Style="background-color: #254336; color: #fff; margin-right: 5px; line-height: 15px;">
+                <JumbotronTitle Size="JumbotronTitleSize.Is4" Style="font-size: 40px;">CLIENTS Page</JumbotronTitle><br />
+                <JumbotronSubtitle>
+                    View or manage the list with all of your clients.
+                </JumbotronSubtitle>  <br />
+                <Button Class="HomeClientButton" Style="color: #fff;" Type="ButtonType.Link" To="users">SEE CLIENTS</Button>
+            </Jumbotron>
+
+            <Jumbotron Background="Background.Light" Margin="Margin.Is3.FromBottom" Style="line-height: 15px;">
+                <JumbotronTitle Size="JumbotronTitleSize.Is4" Style="font-size: 40px;">WORKOUTS Page</JumbotronTitle><br />
+                <JumbotronSubtitle>
+                    Watch your client's progress.
+                </JumbotronSubtitle>  <br />
+                <Button Class="HomeWorkoutButton" Type="ButtonType.Link" To="workouts">SEE WORKOUTS</Button>
+            </Jumbotron>
+        </Div>
+    </Authorized>
+    <NotAuthorized>
+        <Jumbotron Background="Background.Light" Margin="Margin.Is5.FromTop" Style="text-align: center;">
+            <JumbotronTitle Size="JumbotronTitleSize.Is4">Hello, there!</JumbotronTitle><br />
+            <JumbotronSubtitle>
+                Welcome to your workout planning app!<br /><br />
+                As a Trainer you can view, plan and manage personalized Workouts for your clients.
+                Also, you can track Exercises (sets, reps), and watch your client's progress.
+            </JumbotronSubtitle>
+            <Divider></Divider>
+            <JumbotronSubtitle>
+                As a Client you can view your personalized Workouts made by your trainer with all the information you need to start getting in shape.
+            </JumbotronSubtitle>
+        </Jumbotron>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+
+
+
+
+
+
 

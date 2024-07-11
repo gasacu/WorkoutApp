@@ -1,8 +1,10 @@
 ﻿@page "/workouts"
 @page "/workouts/{UserId:int}"
+@using Microsoft.AspNetCore.Authorization
 @using WorkoutApp.DTOs
 @attribute [StreamRendering]
 @rendermode InteractiveServer
+@attribute [Authorize(Roles = "Administrator,User")]
 
 <PageTitle>Workouts</PageTitle>
 
@@ -14,13 +16,15 @@
           FilterMethod="DataGridFilterMethod.StartsWith"
           Editable
           ShowPager
+          Hoverable
+          Narrow
           ShowPageSizes
           Responsive>
 
     <DataGridColumns>
-        <DataGridColumn TItem="WorkoutDto" Field="Name" Caption="Name" Editable></DataGridColumn>
-        <DataGridColumn TItem="WorkoutDto" Field="Date" Caption="Date" Editable></DataGridColumn>
-        <DataGridColumn TItem="WorkoutDto" Field="User.FirstName" Caption="User">
+        <DataGridColumn TItem="WorkoutDto" Field="Name" Caption="Name" Editable TextAlignment="TextAlignment.Center"></DataGridColumn>
+        <DataGridColumn TItem="WorkoutDto" Field="Date" Caption="Date" DisplayFormat="{0:MM/dd/yyyy}" Editable TextAlignment="TextAlignment.Center"></DataGridColumn>
+        <DataGridColumn TItem="WorkoutDto" Field="User.FirstName" Caption="User" TextAlignment="TextAlignment.Center">
             <DisplayTemplate>
                 @{
                     var user = (context as WorkoutDto)?.User;
@@ -32,30 +36,32 @@
                 }
             </DisplayTemplate>
         </DataGridColumn>
-
-        <DataGridCommandColumn TItem="WorkoutDto" Caption="Action" ClearFilterCommandAllowed="true">
-            <EditCommandTemplate>
-                <Button Color="Color.Primary" Clicked="() => OnAddExerciseLogButtonClicked(context)">Add ExerciseLog</Button>
-                <Button Color="Color.Primary" Clicked="() => EditWorkout(context)">Edit</Button>
-            </EditCommandTemplate>
-            <DeleteCommandTemplate>
-                <Button Color="Color.Danger" Clicked="() => OnDeleteButtonClicked(context)">Delete</Button>
-                <Modal @ref="modalRef" Closing="@OnModalClosing">
-                    <ModalContent Centered>
-                        <ModalHeader>
-                            <ModalTitle>Confirm Delete</ModalTitle>
-                        </ModalHeader>
-                        <ModalBody>
-                            Are you sure you want to delete the "@SelectedWorkout?.Name" workout?
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button Color="Color.Secondary" Clicked="@CloseModal">No</Button>
-                            <Button Color="Color.Primary" Clicked="@TryCloseModal">Yes</Button>
-                        </ModalFooter>
-                    </ModalContent>
-                </Modal>
-            </DeleteCommandTemplate>
-        </DataGridCommandColumn>
+        <AuthorizeView Roles ="Administrator" Context="authWorkoutContext">
+            <DataGridCommandColumn TItem="WorkoutDto" Caption="Action" ClearFilterCommandAllowed="true" TextAlignment="TextAlignment.Center">
+                <EditCommandTemplate>
+                    <Button Class="PrimaryButton" Style="color: #fff" Size="Size.Small" Clicked="() => OnAddExerciseLogButtonClicked(context)">+Exercise log</Button>
+                    <Button Color="Color.Warning" Size="Size.Small" Clicked="() => EditWorkout(context)">Edit</Button>
+                </EditCommandTemplate>
+                <DeleteCommandTemplate>
+                    <Button Color="Color.Danger" Size="Size.Small" Clicked="() => OnDeleteButtonClicked(context)">Delete</Button>
+                    <Modal @ref="modalRef" Closing="@OnModalClosing">
+                        <ModalContent Centered>
+                            <ModalHeader>
+                                <ModalTitle>Confirm Delete</ModalTitle>
+                            </ModalHeader>
+                            <ModalBody>
+                                Are you sure you want to delete the "@SelectedWorkout?.Name" workout?
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button Class="SecondaryButton" Style="color: #fff" Clicked="@CloseModal">No</Button>
+                                <Button Class="PrimaryButton" Style="color: #fff" Clicked="@TryCloseModal">Yes</Button>
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
+                </DeleteCommandTemplate>
+            </DataGridCommandColumn>
+        </AuthorizeView>
+        
 
     </DataGridColumns>
 </DataGrid>

@@ -7,6 +7,7 @@ namespace WorkoutApp.DTOs
     {
         public int Id { get; set; }
 
+
         [Required(ErrorMessage = "Reps is required")]
         public int Reps { get; set; }
 

@@ -1,25 +1,23 @@
 ﻿@page "/users"
+
+@using Microsoft.AspNetCore.Authorization
 @using WorkoutApp.DTOs
 @attribute [StreamRendering]
 @rendermode InteractiveServer
+@attribute [Authorize(Roles = "Administrator")]
 
-<PageTitle>Users</PageTitle>
+<PageTitle>Clients</PageTitle>
 
-<Card>
-    <CardBody>
-        <CardTitle Size="2">
-            Users
-        </CardTitle>
-        <CardText>
-            Here is a list with all of your clients. 
-            You can add one, update or delete it.
-        </CardText>
-        <Button Color="Color.Primary" Margin="Margin.Is3.FromTop" Clicked="() => OnAddButtonClicked()">
-            Add new User
-            <Icon Name="IconName.ArrowRight" />
-        </Button>
-    </CardBody>
-</Card>
+<Jumbotron Background="Background.Light" Margin="Margin.Is3.FromBottom" Style="text-align: center; line-height: 17px; padding: 12px;">
+    <JumbotronTitle Size="JumbotronTitleSize.Is4">Clients</JumbotronTitle><br />
+    <JumbotronSubtitle>
+        Here is a list with all of your clients. You can add one, update or delete it. Also, you can Add a new Workout, or see all the Workouts for a specific Client.
+    </JumbotronSubtitle>
+    <Button Class="PrimaryButton" Style="color: #fff" Margin="Margin.Is3.FromTop" Clicked="() => OnAddButtonClicked()">
+        Add new Client
+        <Icon Name="IconName.ArrowRight" />
+    </Button>
+</Jumbotron>
 
 
 <DataGrid TItem="UserDto"
@@ -28,27 +26,29 @@
           FilterMethod="DataGridFilterMethod.StartsWith"
           Editable
           ShowPager
+          Hoverable
+          Narrow
           ShowPageSizes
           Responsive>
 
 
     <DataGridColumns>
-        <DataGridColumn TItem="UserDto" Field="FirstName" Caption="First Name"></DataGridColumn>
-        <DataGridColumn TItem="UserDto" Field="LastName" Caption="Last Name"></DataGridColumn>
-        <DataGridColumn TItem="UserDto" Field="Birthday" Caption="Birthday"></DataGridColumn>
-        <DataGridColumn TItem="UserDto" Field="Gender" Caption="Gender"></DataGridColumn>
-        <DataGridColumn TItem="UserDto" Field="Email" Caption="Email"></DataGridColumn>
-        <DataGridColumn TItem="UserDto" Field="IsTrainer" Caption="IsTrainer"></DataGridColumn>
+        <DataGridColumn TItem="UserDto" Field="FirstName" Caption="First Name" TextAlignment="TextAlignment.Center"></DataGridColumn>
+        <DataGridColumn TItem="UserDto" Field="LastName" Caption="Last Name" TextAlignment="TextAlignment.Center"></DataGridColumn>
+        <DataGridColumn TItem="UserDto" Field="Birthday" Caption="Birthday" DisplayFormat="{0:MM/dd/yyyy}" TextAlignment="TextAlignment.Center"></DataGridColumn>
+        <DataGridColumn TItem="UserDto" Field="Gender" Caption="Gender" TextAlignment="TextAlignment.Center"></DataGridColumn>
+        <DataGridColumn TItem="UserDto" Field="Email" Caption="Email" TextAlignment="TextAlignment.Center"></DataGridColumn>
+        <DataGridColumn TItem="UserDto" Field="IsTrainer" Caption="IsTrainer" TextAlignment="TextAlignment.Center"></DataGridColumn>
 
        
             <DataGridCommandColumn TItem="UserDto" Caption="Action" ClearFilterCommandAllowed="true">
                 <EditCommandTemplate>
-                    <Button Color="Color.Primary" Clicked="() => OnAddWorkoutButtonClicked(context)">Add Workout</Button>
-                    <Button Color="Color.Primary" Clicked="() => SeeWorkoutsButtonClicked(context)">See Workouts</Button>
-                    <Button Color="Color.Primary" Clicked="() => EditUser(context)">Edit</Button>
+                <Button Class="PrimaryButton" Style="color: #fff" Size="Size.Small" Clicked=" ()=> OnAddWorkoutButtonClicked(context)">+workout</Button>
+                <Button Class="SecondaryButton"  Size="Size.Small" Clicked="() => SeeWorkoutsButtonClicked(context)">View Workouts</Button>
+                <Button Color="Color.Warning" Size="Size.Small" Clicked="() => EditUser(context)">Edit</Button>
                 </EditCommandTemplate>
                 <DeleteCommandTemplate>
-                    <Button Color="Color.Danger" Clicked="() => OnDeleteButtonClicked(context)">Delete</Button>
+                <Button Color="Color.Danger" Size="Size.Small" Clicked="() => OnDeleteButtonClicked(context)">Delete</Button>
                     <Modal @ref="modalRef" Closing="@OnModalClosing">
                         <ModalContent Centered>
                             <ModalHeader>
@@ -58,8 +58,8 @@
                                 Are you sure you want to delete the user "@SelectedUser?.FirstName @SelectedUser?.LastName"?
                             </ModalBody>
                             <ModalFooter>
-                                <Button Color="Color.Secondary" Clicked="@CloseModal">No</Button>
-                                <Button Color="Color.Primary" Clicked="@TryCloseModal">Yes</Button>
+                                <Button Class="SecondaryButton" Style="color: #fff" Clicked="@CloseModal">No</Button>
+                                <Button Class="PrimaryButton" Style="color: #fff" Clicked="@TryCloseModal">Yes</Button>
                             </ModalFooter>
                         </ModalContent>
                     </Modal>
@@ -69,3 +69,37 @@
     </DataGridColumns>
 </DataGrid>
 
+
+
+<CardDeck>
+    <Card>
+        <CardImage Source="/female.png" Alt="Card image cap 3"></CardImage>
+        <CardBody>
+            <CardTitle Size="5">Title</CardTitle>
+            <CardText>
+                This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+            </CardText>
+            <Button Color="Color.Primary">Button</Button>
+        </CardBody>
+    </Card>
+    <Card>
+        <CardImage Source="/male.png" Alt="Card image cap 9"></CardImage>
+        <CardBody>
+            <CardTitle Size="5">Card title 2</CardTitle>
+            <CardText>
+                This card has supporting text below as a natural lead-in to additional content.
+            </CardText>
+            <Button Color="Color.Primary">Button</Button>
+        </CardBody>
+    </Card>
+    <Card>
+        <CardImage Source="/male.png" Alt="Card image cap 12"></CardImage>
+        <CardBody>
+            <CardTitle Size="5">Card title 3</CardTitle>
+            <CardText>
+                This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.
+            </CardText>
+            <Button Color="Color.Primary">Button</Button>
+        </CardBody>
+    </Card>
+</CardDeck>

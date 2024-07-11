@@ -25,9 +25,11 @@ namespace WorkoutApp.DTOs
         [Column(TypeName = "nvarchar(1)")]
         [Required(ErrorMessage = "Gender is required")]
         public string Gender { get; set; }
-        
-        [StringLength(100, ErrorMessage = "Email cannot be longer that 100 characters")]
-        public string? Email { get; set; }
+
+		[Required(ErrorMessage = "Email is required")]
+		[EmailAddress]
+		[RegularExpression("^[A-Za-z0-9.%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$", ErrorMessage = "Invalid email adress")]
+		public string? Email { get; set; }
 
         public bool IsTrainer { get; set; }
         public ICollection<Workout> Workouts { get; set; }

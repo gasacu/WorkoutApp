@@ -7,13 +7,13 @@
 
 @if (UserId == null)
 {
-    <PageTitle>Create a new User</PageTitle>
-    <h3>Create a new User</h3>
+    <PageTitle>Add a new Client</PageTitle>
+    <h3>Create a new Client</h3><hr />
 }
 else
 {
-    <PageTitle>Edit @user.FirstName</PageTitle>
-    <h3>Edit @user.FirstName</h3>
+    <PageTitle>Edit client</PageTitle>
+    <h3>Edit client: @user.FirstName @user.LastName</h3><hr />
 }
 
 
@@ -21,18 +21,18 @@ else
     <DataAnnotationsValidator />
 
     <div class="form-group">
-        <label>First Name :</label>
-        <InputText @bind-Value="@user.FirstName" class="form-control col-sm-3" />
+        <label style ="font-weight: 600">First Name :</label>
+        <InputText @bind-Value="@user.FirstName" class="form-control col-sm-5" />
         <ValidationMessage For="@(() => @user.FirstName)" />
     </div>
     <div class="form-group">
-        <label>Last Name :</label>
-        <InputText @bind-Value="@user.LastName" class="form-control col-sm-3" />
+        <label style="font-weight: 600">Last Name :</label>
+        <InputText @bind-Value="@user.LastName" class="form-control col-sm-5" />
         <ValidationMessage For="@(() => @user.LastName)" />
     </div>
     <div class="form-group">
-        <label> Select your gender: </label>
-        <InputSelect @bind-Value="@user.Gender">
+        <label style="font-weight: 600">Select Gender:</label>
+        <InputSelect @bind-Value="@user.Gender" class="form-control col-sm-3">
             <option value="">--Select One--</option>
             @foreach (var gender in Enum.GetValues(typeof(Gender)))
             {
@@ -42,23 +42,25 @@ else
         <ValidationMessage For="@(() => user.Gender)" />
     </div>
     <div class="form-group">
-        <label>Birthday :</label>
+        <label style="font-weight: 600">Birthday :</label>
         <InputDate @bind-Value="@user.Birthday" class="form-control col-sm-3" />
         <ValidationMessage For="@(() => @user.Birthday)" />
     </div>
     <div class="form-group">
-        <label>Email :</label>
-        <InputText @bind-Value="@user.Email" class="form-control col-sm-3" />
+        <label style="font-weight: 600">Email :</label>
+        <InputText @bind-Value="@user.Email" class="form-control col-sm-5" />
         <ValidationMessage For="@(() => @user.Email)" />
     </div>
     <div class="form-group">
-        <label>IsTrainer :</label>
+        <label style="font-weight: 600">IsTrainer :</label>
         <InputCheckbox @bind-Value="@user.IsTrainer" style="transform: scale(2); margin-left: 15px" />
         <ValidationMessage For="@(() => @user.IsTrainer)" />
     </div>
     <div class="form-group">
-        <input type="submit" class="btn btn-primary" value="Save" />
-        <a href="/users" class="btn btn-secondary shadow-none ms-3">Back to List</a>
+        <Button Class="PrimaryButton" Type="ButtonType.Submit" Style="color: #fff" Margin="Margin.Is3.FromTop">
+            Save
+        </Button>
+        <Button Class="SecondaryButton" Style="color: #fff" Type="ButtonType.Link" To="users" Margin="Margin.Is3.FromTop">Back to List</Button>
     </div>
 </EditForm>
 
