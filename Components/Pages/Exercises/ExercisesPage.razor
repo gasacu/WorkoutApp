@@ -1,17 +1,183 @@
 ﻿@page "/exercises"
 @using WorkoutApp.DTOs
+@using Blazorise
+@using Blazorise.DataGrid
 @attribute [StreamRendering]
 @rendermode InteractiveServer
 
 
 <PageTitle>Exercises</PageTitle>
 
-<Heading Size="HeadingSize.Is2" Padding="Padding.Is3" TextAlignment="TextAlignment.Center">Exercises</Heading><hr />
+<Heading Size="HeadingSize.Is2" Padding="Padding.Is3" TextAlignment="TextAlignment.Center" Style="box-shadow: rgba(0, 0, 0, 0.15) 0px 25px 20px -20px;">Exercises</Heading>
+<hr />
 
-<a href="exercise/add" style="color: #fff;" class="PrimaryButton">Add Exercise -></a><br /><br />
+<AuthorizeView Roles ="Administrator" Context="authExLogsContext">
+    <a href="exercise/add" style="color: #fff;" class="PrimaryButton">Add Exercise -></a><br /><br />
+</AuthorizeView>
 
 
-<DataGrid TItem="ExerciseDto"
+<Table Class="styled-table">
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>Type</TableHeaderCell>
+            <TableHeaderCell>Description</TableHeaderCell>
+            <AuthorizeView Roles ="Administrator" Context="authExLogsContext">
+                <TableHeaderCell>Action</TableHeaderCell>
+            </AuthorizeView>
+            
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRowGroup Title="Chest">
+            @foreach (var exercise in ExercisesData.Where(e => e.Type == "Chest"))
+            {
+                <TableRow>
+                    <TableRowCell>@exercise.Type</TableRowCell>
+                    <TableRowCell>@exercise.Description</TableRowCell>
+                    <AuthorizeView Roles ="Administrator" Context="authExLogsContext">
+                        <TableRowCell>
+                            <Button Color="Color.Warning" Size="Size.Small" Clicked="() => EditExercise(exercise)">Edit</Button>
+                            <Button Color="Color.Danger" Size="Size.Small" Clicked="() => OnDeleteButtonClicked(exercise)">Delete</Button>
+                        </TableRowCell>
+                    </AuthorizeView>
+                </TableRow>
+            }
+        </TableRowGroup>
+        <TableRowGroup Title="Shoulders">
+            @foreach (var exercise in ExercisesData.Where(e => e.Type == "Shoulders"))
+            {
+                <TableRow>
+                    <TableRowCell>@exercise.Type</TableRowCell>
+                    <TableRowCell>@exercise.Description</TableRowCell>
+                    <AuthorizeView Roles="Administrator" Context="authExLogsContext">
+                        <TableRowCell>
+                            <Button Color="Color.Warning" Size="Size.Small" Clicked="() => EditExercise(exercise)">Edit</Button>
+                            <Button Color="Color.Danger" Size="Size.Small" Clicked="() => OnDeleteButtonClicked(exercise)">Delete</Button>
+                        </TableRowCell>
+                    </AuthorizeView>
+                </TableRow>
+            }
+        </TableRowGroup>
+        <TableRowGroup Title="Arms">
+            @foreach (var exercise in ExercisesData.Where(e => e.Type == "Arms"))
+            {
+                <TableRow>
+                    <TableRowCell>@exercise.Type</TableRowCell>
+                    <TableRowCell>@exercise.Description</TableRowCell>
+                    <AuthorizeView Roles="Administrator" Context="authExLogsContext">
+                        <TableRowCell>
+                            <Button Color="Color.Warning" Size="Size.Small" Clicked="() => EditExercise(exercise)">Edit</Button>
+                            <Button Color="Color.Danger" Size="Size.Small" Clicked="() => OnDeleteButtonClicked(exercise)">Delete</Button>
+                        </TableRowCell>
+                    </AuthorizeView>
+                </TableRow>
+            }
+        </TableRowGroup>
+        <TableRowGroup Title="Back">
+            @foreach (var exercise in ExercisesData.Where(e => e.Type == "Back"))
+            {
+                <TableRow>
+                    <TableRowCell>@exercise.Type</TableRowCell>
+                    <TableRowCell>@exercise.Description</TableRowCell>
+                    <AuthorizeView Roles="Administrator" Context="authExLogsContext">
+                        <TableRowCell>
+                            <Button Color="Color.Warning" Size="Size.Small" Clicked="() => EditExercise(exercise)">Edit</Button>
+                            <Button Color="Color.Danger" Size="Size.Small" Clicked="() => OnDeleteButtonClicked(exercise)">Delete</Button>
+                        </TableRowCell>
+                    </AuthorizeView>
+                </TableRow>
+            }
+        </TableRowGroup>
+        <TableRowGroup Title="Legs">
+            @foreach (var exercise in ExercisesData.Where(e => e.Type == "Legs"))
+            {
+                <TableRow>
+                    <TableRowCell>@exercise.Type</TableRowCell>
+                    <TableRowCell>@exercise.Description</TableRowCell>
+                    <AuthorizeView Roles="Administrator" Context="authExLogsContext">
+                        <TableRowCell>
+                            <Button Color="Color.Warning" Size="Size.Small" Clicked="() => EditExercise(exercise)">Edit</Button>
+                            <Button Color="Color.Danger" Size="Size.Small" Clicked="() => OnDeleteButtonClicked(exercise)">Delete</Button>
+                        </TableRowCell>
+                    </AuthorizeView>
+                </TableRow>
+            }
+        </TableRowGroup>
+    </TableBody>
+</Table>
+
+<Modal @ref="modalRef" Closing="@OnModalClosing">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Confirm Delete</ModalTitle>
+        </ModalHeader>
+        <ModalBody>
+            Are you sure you want to delete the "@SelectedExercise?.Description" exercise?
+        </ModalBody>
+        <ModalFooter>
+            <Button Class="SecondaryButton" Style="color: #fff" Clicked="@CloseModal">No</Button>
+            <Button Class="PrimaryButton" Style="color: #fff" Clicked="@TryCloseModal">Yes</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+<style>
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 1em;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+        .styled-table th, .styled-table td {
+            padding: 12px 15px;
+            text-align: center;
+        }
+
+        .styled-table thead th {
+            background-color: #6B8A7A;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+            .styled-table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3;
+            }
+
+            .styled-table tbody tr:last-of-type {
+                border-bottom: 2px solid #6B8A7A;
+            }
+
+            .styled-table tbody tr.active-row {
+                font-weight: bold;
+                color: #6B8A7A;
+            }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+        border-radius: 4px;
+        color: #fff;
+        padding: 5px 10px;
+        margin-right: 5px;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        border-radius: 4px;
+        color: #fff;
+        padding: 5px 10px;
+    }
+</style>
+
+@* <DataGrid TItem="ExerciseDto"
           Data="@ExercisesData"
           Filterable
           FilterMethod="DataGridFilterMethod.StartsWith"
@@ -52,3 +218,4 @@
     </DataGridColumns>
 
 </DataGrid>
+ *@

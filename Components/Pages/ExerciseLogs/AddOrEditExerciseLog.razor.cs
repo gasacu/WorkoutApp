@@ -66,10 +66,20 @@ namespace WorkoutApp.Components.Pages.ExerciseLogs
 
         public async Task Save()
         {
+            if (exerciseLog.ExerciseId == null || !exercises.Any(e => e.Id == exerciseLog.ExerciseId))
+            {
+                // Handle the case where ExerciseId is not valid or not selected
+                return;
+            }
+
             if (ExerciseLogId == null)
             {
                 exerciseLog.WorkoutId = workout.Id;
                 await ExerciseLogRepository.AddExerciseLog(exerciseLog);
+            }
+            else
+            {
+                ExerciseLogRepository.EditExerciseLog(exerciseLog);
             }
 
             await InvokeAsync(() => NavigationManager.NavigateTo("/exerciselogs"));

@@ -5,7 +5,7 @@
 
 <PageTitle>Exercise Logs</PageTitle>
 
-<Heading Size="HeadingSize.Is2" Padding="Padding.Is3" TextAlignment="TextAlignment.Center">Exercise Logs</Heading>
+<Heading Size="HeadingSize.Is2" Padding="Padding.Is3" TextAlignment="TextAlignment.Center" Style="box-shadow: rgba(0, 0, 0, 0.15) 0px 25px 20px -20px;">Exercise Logs</Heading>
 
 
 <DataGrid TItem="ExerciseLogDto"
@@ -17,7 +17,9 @@
           ShowPager
           Hoverable
           Narrow
-          ShowPageSizes>
+          ShowPageSizes
+          Class="styled-data-grid"
+          Style="box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px; padding: 30px;">
 
     <DataGridColumns>
         <DataGridColumn TItem="ExerciseLogDto" Field="Workout.Name" Caption="Workout" TextAlignment="TextAlignment.Center">
@@ -73,3 +75,51 @@
     </DataGridColumns>
 </DataGrid>
 
+<style>
+    .styled-data-grid {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 14px;
+    }
+
+        .styled-data-grid th, .styled-data-grid td {
+            padding: 12px 15px;
+        }
+
+        .styled-data-grid th {
+            background-color: #f2f2f2;
+            border-bottom: 2px solid #e2e2e2;
+        }
+
+        .styled-data-grid td {
+            border-bottom: 1px solid #e2e2e2;
+        }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        border-radius: 4px;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+        border-radius: 4px;
+        color: #fff;
+        padding: 5px 10px;
+        margin-right: 5px;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        border-radius: 4px;
+        color: #fff;
+        padding: 5px 10px;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        border-radius: 4px;
+    }
+</style>

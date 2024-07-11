@@ -2,17 +2,16 @@
 @using WorkoutApp.Components.Layout
 @using WorkoutApp.Context
 @using WorkoutApp.DTOs
+@using Blazorise.Extensions
 @attribute [StreamRendering]
 @rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
 
 
-
-
 <AuthorizeView>
     <Authorized>
-        <Jumbotron Background="Background.Light" Margin="Margin.Is3.FromBottom" Style="text-align: center;">
+        <Jumbotron Background="Background.Light" Margin="Margin.Is3.FromBottom" Style="text-align: center; box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
             <JumbotronTitle Size="JumbotronTitleSize.Is4">Hello, @User?.FirstName!</JumbotronTitle><br />
             <JumbotronSubtitle>
                 Welcome to your workout planning app, where you can view, plan and manage personalized Workouts for your clients.
@@ -22,8 +21,8 @@
                 You can also track Exercises (sets, reps), and watch your client's progress.
             </JumbotronSubtitle>
         </Jumbotron>
-        <Div Style="display:flex; align-content: center; justify-content: space-around;">
-            <Jumbotron Margin="Margin.Is3.FromBottom" Style="background-color: #254336; color: #fff; margin-right: 5px; line-height: 15px;">
+        <Div Style="display:flex; align-content: center; justify-content: space-around; ">
+            <Jumbotron Margin="Margin.Is3.FromBottom" Style="background-color: #254336; color: #fff; margin-right: 5px; line-height: 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
                 <JumbotronTitle Size="JumbotronTitleSize.Is4" Style="font-size: 40px;">CLIENTS Page</JumbotronTitle><br />
                 <JumbotronSubtitle>
                     View or manage the list with all of your clients.
@@ -31,7 +30,7 @@
                 <Button Class="HomeClientButton" Style="color: #fff;" Type="ButtonType.Link" To="users">SEE CLIENTS</Button>
             </Jumbotron>
 
-            <Jumbotron Background="Background.Light" Margin="Margin.Is3.FromBottom" Style="line-height: 15px;">
+            <Jumbotron Background="Background.Light" Margin="Margin.Is3.FromBottom" Style="line-height: 15px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
                 <JumbotronTitle Size="JumbotronTitleSize.Is4" Style="font-size: 40px;">WORKOUTS Page</JumbotronTitle><br />
                 <JumbotronSubtitle>
                     Watch your client's progress.
@@ -41,7 +40,7 @@
         </Div>
     </Authorized>
     <NotAuthorized>
-        <Jumbotron Background="Background.Light" Margin="Margin.Is5.FromTop" Style="text-align: center;">
+        <Jumbotron Background="Background.Light" Margin="Margin.Is5.FromTop" Style="text-align: center; box-shadow: rgba(0, 0, 0, 0.15) 0px 25px 20px -20px;">
             <JumbotronTitle Size="JumbotronTitleSize.Is4">Hello, there!</JumbotronTitle><br />
             <JumbotronSubtitle>
                 Welcome to your workout planning app!<br /><br />
@@ -55,6 +54,11 @@
         </Jumbotron>
     </NotAuthorized>
 </AuthorizeView>
+
+
+
+
+
 
 
 

@@ -42,6 +42,25 @@ namespace WorkoutApp.Repositories.Implementation
             return exerciseLogDto;
         }
 
+
+        public IList<ExerciseLogDto> GetExerciseLogsByUserId(int userId)
+        {
+
+            var exerciseLogs = new List<ExerciseLogDto>();
+            var allExerciseLogs = _context.ExerciseLogs.Where(w => w.Workout.UserId == userId).Include(x => x.Workout).ToList();
+            if (allExerciseLogs?.Any() == true)
+            {
+                foreach (var exerciseLog in allExerciseLogs)
+                {
+                    var exerciseLogDto = ExerciseLogMapper.ToExerciseLogDto(exerciseLog);
+                    exerciseLogs.Add(exerciseLogDto);
+                }
+            }
+
+            return exerciseLogs;
+
+        }
+
         public async Task AddExerciseLog(ExerciseLogDto exerciseLogDto)
         {
             var exerciseLog = ExerciseLogMapper.ToExerciseLog(exerciseLogDto);

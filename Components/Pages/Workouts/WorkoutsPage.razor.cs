@@ -41,16 +41,35 @@ namespace WorkoutApp.Components.Pages.Workouts
 
         protected override async Task OnParametersSetAsync()
         {
-            if (UserId == null)
+            // Fetch the user session from the session storage
+            var user = await SessionStorage.GetAsync<UserDto>("UserSession");
+            var userSession = user.Success ? user.Value : null;
+
+            if(userSession == null)
             {
-                WorkoutsData = WorkoutRepository.GetAllWorkouts().ToList();
+                // Handle the case when the user session is not available
+                NavigationManager.NavigateTo("/login", true);
+                return;
+            }
+
+            // Use your custom AuthorizationService to get the current user
+            var isAdmin = userSession.IsTrainer;    // Assuming IsTrainer indicates admin rights
+
+            if(isAdmin)
+            {
+                // Admin can view all workouts or specific user's workouts if UserId is provided
+                WorkoutsData = UserId.HasValue
+                    ? WorkoutRepository.GetWorkoutsByUserId(UserId.Value).ToList()
+                    : WorkoutRepository.GetAllWorkouts().ToList();
             }
             else
             {
-                WorkoutsData = WorkoutRepository.GetWorkoutsByUserId(UserId.Value).ToList();
-                var user = await SessionStorage.GetAsync<UserDto>("UserSession");
-                User = UserRepository.GetUserById(user.Value.Id);
+                // Regular users can only view their own workouts
+                WorkoutsData = WorkoutRepository.GetWorkoutsByUserId(userSession.Id).ToList();
             }
+
+            User = userSession;
+
         }
 
         // add Exercise Log for Workout

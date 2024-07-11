@@ -11,7 +11,7 @@
     <PageTitle>Create a new Exercise</PageTitle>
     <h3>Create a new Exercise</h3><hr />
 
-    <EditForm Model="@exercise" OnValidSubmit="@AddExercise" FormName="Form">
+    <EditForm Model="@exercise" OnValidSubmit="@AddExercise" style="box-shadow: 0 14px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19); padding: 30px;" FormName="Form">
         <DataAnnotationsValidator />
 
         <div class="form-group">
@@ -41,7 +41,7 @@ else
     <PageTitle>Edit @exercise.Description</PageTitle>
     <h3>Edit @exercise.Description</h3><hr />
 
-    <EditForm Model="@exercise" OnValidSubmit="@EditExercise" FormName="EditExerciseForm">
+    <EditForm Model="@exercise" OnValidSubmit="@EditExercise" style="box-shadow: 0 14px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19); padding: 30px;" FormName="EditExerciseForm">
         <DataAnnotationsValidator />
 
 

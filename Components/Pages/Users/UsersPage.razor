@@ -8,8 +8,8 @@
 
 <PageTitle>Clients</PageTitle>
 
-<Jumbotron Background="Background.Light" Margin="Margin.Is3.FromBottom" Style="text-align: center; line-height: 17px; padding: 12px;">
-    <JumbotronTitle Size="JumbotronTitleSize.Is4">Clients</JumbotronTitle><br />
+<Jumbotron Background="Background.Light" Margin="Margin.Is3.FromBottom" Style="text-align: center; line-height: 17px; padding: 12px; box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+    <JumbotronTitle Size="JumbotronTitleSize.Is4" Padding="Padding.Is3" TextAlignment="TextAlignment.Center">Clients</JumbotronTitle>
     <JumbotronSubtitle>
         Here is a list with all of your clients. You can add one, update or delete it. Also, you can Add a new Workout, or see all the Workouts for a specific Client.
     </JumbotronSubtitle>
@@ -18,8 +18,56 @@
         <Icon Name="IconName.ArrowRight" />
     </Button>
 </Jumbotron>
+<br />
+
+<Div Class="container">
+    <Div Class="row">
+        @foreach (var user in UsersData)
+        {
+            <Div Class="col-lg-4 col-md-6 mb-4">
+                <Card Class="h-100" Style="box-shadow: 10px 10px 5px #DAD3BE ;">
+                    <Div Style="display: flex; flex-direction: row;">
+                        <CardImage Source="@(user.Gender == "M" ? "/boy.png" : "/girl.png")" Alt="User Image" Margin="Margin.Is3.FromTop" Style="padding: 5px; width:100px; height: 100px;" Class="card-img-top" />
+                        <CardBody>
+                            <CardTitle Size="5">@($"{user.FirstName} {user.LastName}")</CardTitle>
+                            <CardText>
+                                <p><strong>Birthday:</strong> @user.Birthday.ToString("MM/dd/yyyy")</p>
+                                <p><strong>Email:</strong> @user.Email</p>
+                                <p><strong>Is Trainer:</strong> @user.IsTrainer</p>
+                            </CardText>
+
+                        </CardBody>
+                    </Div>
+                    <Div Class="d-flex justify-content-around mt-1" Margin="Margin.Is3.FromBottom">
+                        <Button Class="PrimaryButton" Style="color: #fff" Size="Size.Small" Clicked="() => OnAddWorkoutButtonClicked(user)">+ Workout</Button>
+                        <Button Class="SecondaryButton" Size="Size.Small" Clicked="() => SeeWorkoutsButtonClicked(user)">View Workouts</Button>
+                        <Button Color="Color.Warning" Size="Size.Small" Clicked="() => EditUser(user)">Edit</Button>
+                        <Button Color="Color.Danger" Size="Size.Small" Clicked="() => OnDeleteButtonClicked(user)">Delete</Button>
+                    </Div>
+                </Card>
+                
+            </Div>
+        }
+    </Div>
+</Div>
 
 
+<Modal @ref="modalRef" Closing="@OnModalClosing" style="box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Confirm Delete</ModalTitle>
+        </ModalHeader>
+        <ModalBody>
+            Are you sure you want to delete the user "@SelectedUser?.FirstName @SelectedUser?.LastName"?
+        </ModalBody>
+        <ModalFooter>
+            <Button Class="SecondaryButton" Style="color: #fff" Clicked="@CloseModal">No</Button>
+            <Button Class="PrimaryButton" Style="color: #fff" Clicked="@TryCloseModal">Yes</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+@* 
 <DataGrid TItem="UserDto"
           Data="@UsersData"
           Filterable
@@ -102,4 +150,7 @@
             <Button Color="Color.Primary">Button</Button>
         </CardBody>
     </Card>
-</CardDeck>
+</CardDeck> *@
+
+
+

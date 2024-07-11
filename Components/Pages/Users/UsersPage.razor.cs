@@ -39,40 +39,29 @@ namespace WorkoutApp.Components.Pages.Users
         }
 
         // add workout for user
-        private void OnAddWorkoutButtonClicked(EditCommandContext<UserDto> context)
+        private void OnAddWorkoutButtonClicked(UserDto user)
         {
-            if (context != null && context.Item != null)
-            {
-                NavigationManager.NavigateTo($"/workout/add/{context.Item.Id}");
-            }
+           
+            NavigationManager.NavigateTo($"/workout/add/{user.Id}");
+            
         }
 
         // see workouts for user
-        private void SeeWorkoutsButtonClicked(EditCommandContext<UserDto> context)
+        private void SeeWorkoutsButtonClicked(UserDto user)
         {
-            if (context != null && context.Item != null)
-            {
-                NavigationManager.NavigateTo($"/workouts/{context.Item.Id}");
-            }
+            NavigationManager.NavigateTo($"/workouts/{user.Id}");
         }
 
-        private void EditUser(EditCommandContext<UserDto> context)
+        private void EditUser(UserDto user)
         {
-            if (context != null && context.Item != null)
-            {
-                NavigationManager.NavigateTo($"/user/edit/{context.Item.Id}");
-            }
+            NavigationManager.NavigateTo($"/user/edit/{user.Id}");
         }
 
-        private void OnDeleteButtonClicked(DeleteCommandContext<UserDto> context)
+        private void OnDeleteButtonClicked(UserDto user)
         {
 
-            SelectedUser = context.Item;
+            SelectedUser = user;
 
-            if (modalRef is null || SelectedUser is null)
-            {
-                return;
-            }
 
             modalRef.Show();
         }

@@ -1,6 +1,8 @@
 ﻿using Blazorise;
 using Blazorise.DataGrid;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using WorkoutApp.Authorization;
 using WorkoutApp.DTOs;
 using WorkoutApp.Entities;
 using WorkoutApp.Repositories.Implementation;
@@ -27,13 +29,45 @@ namespace WorkoutApp.Components.Pages.ExerciseLogs
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
+        [Inject] public IAuthorizationService AuthorizationService { get; set; }
+
+        [Inject] public ProtectedSessionStorage SessionStorage { get; set; }
+
+
         private Modal modalRef;
 
         private bool cancelClose;
 
-        protected override void OnInitialized()
+        protected override async Task OnParametersSetAsync()
         {
-            ExerciseLogsData = ExerciseLogRepository.GetAllExerciseLogs().ToList();
+            // Fetch the user session from the session storage
+            var user = await SessionStorage.GetAsync<UserDto>("UserSession");
+            var userSession = user.Success ? user.Value : null;
+
+            if (userSession == null)
+            {
+                // Handle the case when the user session is not available
+                NavigationManager.NavigateTo("/login", true);
+                return;
+            }
+
+            // Use your custom AuthorizationService to get the current user
+            var isAdmin = userSession.IsTrainer;    // Assuming IsTrainer indicates admin rights
+
+
+            if (isAdmin)
+            {
+                // Admin can view all exercise logs
+                ExerciseLogsData = ExerciseLogRepository.GetAllExerciseLogs().ToList();
+            }
+            else
+            {
+                // Regular users can only view their own exercise logs
+                ExerciseLogsData = ExerciseLogRepository.GetExerciseLogsByUserId(userSession.Id).ToList();
+            }
+
+
+        
         }
 
 

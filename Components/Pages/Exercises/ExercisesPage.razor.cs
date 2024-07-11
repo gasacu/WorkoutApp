@@ -30,24 +30,16 @@ namespace WorkoutApp.Components.Pages.Exercises
             ExercisesData = ExerciseRepository.GetAllExercises().OrderByDescending(p => p.Id).ToList();
         }
 
-        private void EditExercise(EditCommandContext<ExerciseDto> context)
+        private void EditExercise(ExerciseDto exercise)
         {
-            if (context != null && context.Item != null)
-            {
-                NavigationManager.NavigateTo($"/exercise/edit/{context.Item.Id}");
-            }
+            NavigationManager.NavigateTo($"/exercise/edit/{exercise.Id}");
         }
 
 
-        private void OnDeleteButtonClicked(DeleteCommandContext<ExerciseDto> context)
+        private void OnDeleteButtonClicked(ExerciseDto exercise)
         {
 
-            SelectedExercise = context.Item;
-
-            if (modalRef is null || SelectedExercise is null)
-            {
-                return;
-            }
+            SelectedExercise = exercise;
 
             modalRef.Show();
         }

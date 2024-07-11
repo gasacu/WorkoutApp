@@ -7,6 +7,7 @@ namespace WorkoutApp.Repositories.Interfaces
     {
         IList<ExerciseLogDto> GetAllExerciseLogs();
         ExerciseLogDto GetExerciseLogById(int id);
+        IList<ExerciseLogDto> GetExerciseLogsByUserId(int userId);
         Task AddExerciseLog(ExerciseLogDto exerciseLogDto);
         void EditExerciseLog(ExerciseLogDto exerciseLogDto);
         void DeleteExerciseLog(int id);
